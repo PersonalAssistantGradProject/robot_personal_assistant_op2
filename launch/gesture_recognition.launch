@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<launch>
+
+
+    
+    <node pkg="gptest" type="gesture.sh" name="gesture_recognition" output="screen"/>
+    <node pkg="gptest" type="gesture_action_v0_5.py" name="gesture_action" output="screen"/>
+
+
+</launch>

@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<launch>
+
+
+    <node pkg="gptest" type="action_init_v_0_5.py" name="action_init" output="screen"/>
+
+
+</launch>

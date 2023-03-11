@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<launch>
+
+
+    
+    <node pkg="gptest" type="facial_detection.py" name="facial_detection" output="screen"/>
+    <node pkg="gptest" type="facial_action.py" name="facial_action" output="screen"/>
+
+
+</launch>

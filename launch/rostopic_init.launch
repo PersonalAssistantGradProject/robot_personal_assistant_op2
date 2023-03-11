@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<launch>
+
+
+    <node pkg="rostopic" type="rostopic" name="rostopic" args ="pub /initialization std_msgs/String 'data: 'go' '" />
+
+
+</launch>
