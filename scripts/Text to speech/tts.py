@@ -15,3 +15,6 @@ def Say(text):
 # this python script will subscribe to a ROS topic that has string messages (text) and then convert it to speech.
 
 
+
+
+#edit test
