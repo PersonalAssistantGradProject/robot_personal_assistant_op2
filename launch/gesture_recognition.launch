@@ -3,8 +3,8 @@
 
 
     
-    <node pkg="gptest" type="gesture.sh" name="gesture_recognition" output="screen"/>
-    <node pkg="gptest" type="gesture_action_v0_5.py" name="gesture_action" output="screen"/>
+    <node pkg="robot_personal_assistant_op2" type="gesture.sh" name="gesture_recognition" output="screen"/>
+    <node pkg="robot_personal_assistant_op2" type="gesture_action_v0_5.py" name="gesture_action" output="screen"/>
 
 
 </launch>

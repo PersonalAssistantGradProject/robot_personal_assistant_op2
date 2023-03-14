@@ -12,7 +12,7 @@ import cv2
 
 
 # loading the facial detection cascade
-face_cascade = cv2.CascadeClassifier('/home/ahmad/catkin_ws/src/gptest/haarcascade_frontalface_default.xml') # you might have to change this path
+face_cascade = cv2.CascadeClassifier('/home/ahmad/catkin_ws/src/robot_personal_assistant_op2/haarcascade_frontalface_default.xml') # you might have to change this path
 
 
 pub = rospy.Publisher('/facial',String,queue_size=10)
