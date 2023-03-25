@@ -34,8 +34,6 @@ def action_init () :
 
 
     # Defining a ROS msg of a string data type 
-    # test 
-    # test2
     ini_pose_msg = String()
     ini_pose_msg.data = "ini_pose"
 
