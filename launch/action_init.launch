@@ -2,7 +2,7 @@
 <launch>
 
 
-    <node pkg="robot_personal_assistant_op2" type="action_init_v_0_5.py" name="action_init" output="screen"/>
+    <node pkg="robot_personal_assistant_op2" type="action_init.py" name="action_init" output="screen"/>
 
 
 </launch>
