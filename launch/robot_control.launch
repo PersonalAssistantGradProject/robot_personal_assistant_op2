@@ -8,14 +8,14 @@
     <!-- Run the action initialization node which is responsible to enabling the action module, this will make the robot respond for sent actions (page numbers) -->
 
     <node pkg="timed_roslaunch" type="timed_roslaunch.sh"
-    args="10 gptest rostopic_init.launch"
+    args="10 robot_personal_assistant_op2 rostopic_init.launch"
     name="timed_roslaunch_rostopic_init" output="screen" />
     
     <node pkg="timed_roslaunch" type="timed_roslaunch.sh"
-    args="10 gptest action_init.launch"
+    args="10 robot_personal_assistant_op2 action_init.launch"
     name="timed_roslaunch_action_init" output="screen" />
 
     <node pkg="timed_roslaunch" type="timed_roslaunch.sh"
-    args="25 gptest image_pub.launch"
+    args="25 robot_personal_assistant_op2 image_pub.launch"
     name="timed_roslaunch_image_pub" output="screen" />
 </launch>

@@ -2,7 +2,7 @@
 <launch>
 
 
-    <node pkg="gptest" type="image_pub_v1_0.py" name="image_pub" output="screen"/>
+    <node pkg="robot_personal_assistant_op2" type="image_pub_v1_0.py" name="image_pub" output="screen"/>
 
 
 </launch>
