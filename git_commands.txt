@@ -1,0 +1,18 @@
+git status
+git init
+git add (file name) 
+git add .
+git commit -m "text"
+git log
+
+git push origin main
+
+
+
+
+**** if you get an error while pushing:
+git pull origin main
+git push origin main
+
+
+**** to update your git clone delete it then use git clone again :)
