@@ -1,22 +1,22 @@
 #!/usr/bin/env python
 
-import speech_recognition as sr       # PART 2
-import requests                       # PART 4
-from bs4 import BeautifulSoup         # PART 4
-import random                         # PART 4
+import speech_recognition as sr       
+import requests                       
+from bs4 import BeautifulSoup         
+import random                         
 
-import rospy                          # PART 3
-from std_msgs.msg import String       # PART 3
+import rospy                          
+from std_msgs.msg import String       
 from datetime import datetime
 import time
 import wolframalpha
   
 
-####################################################### PART 1 - subscribe to voice stream from the robot
+####################################################### subscribe to voice stream from the robot
 
 
 
-####################################################### PART 2 - function to publish the text to the robot
+####################################################### function to publish the text to the robot
 
 pub = rospy.Publisher('tts',String,queue_size=10)
 rospy.init_node('text_pub',anonymous=True)
@@ -29,7 +29,7 @@ def speak_text(output_text, sleeptime):
     time.sleep(sleeptime)
 
 
-####################################################### PART 3 - generate the required text
+####################################################### generate the required text
 
 def generate_text(user_said):
 
@@ -62,7 +62,7 @@ def generate_text(user_said):
             print("Say your note!")
             output_text = "Please speak out your note!"
             speak_text(output_text,3)
-
+            r.adjust_for_ambient_noise(source)
             audio_text = r.listen(source)
 
             # using google speech recognition
@@ -147,7 +147,9 @@ def generate_text(user_said):
         output_text = "Please speak out your question!"
         speak_text(output_text,2)
         with sr.Microphone() as source:
+            
 
+            r.adjust_for_ambient_noise(source)
             audio_text = r.listen(source)
 
             # using google speech recognition
@@ -196,7 +198,7 @@ def generate_text(user_said):
 
 
 
-####################################################### PART 4 - speech to text
+####################################################### speech to text
 
 
 # Initialize recognizer class (for recognizing the speech)
@@ -213,6 +215,7 @@ while True:
     with sr.Microphone() as source:
 
         print("Say \"hey Darwin\"!")
+        r.adjust_for_ambient_noise(source)
         audio_text = r.listen(source)
 
         # using google speech recognition
@@ -226,12 +229,15 @@ while True:
             output_text = generate_text(user_said)
             if (output_text == " "):
 
-
+                
                 print("how can i help you?") # placeholder
+                speak_text("how can i help you?",3)
                 with sr.Microphone() as source:
-
+                    
+                    r.adjust_for_ambient_noise(source)
                     audio_text = r.listen(source)
                     #print("Text: "+r.recognize_google(audio_text))
+
                     user_said = r.recognize_google(audio_text)
                     print ("User said: ", user_said)
                     generate_text(user_said)
