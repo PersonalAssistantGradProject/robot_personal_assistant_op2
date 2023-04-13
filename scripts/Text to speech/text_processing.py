@@ -145,7 +145,7 @@ def generate_text(user_said):
 
         print("Say your question!")
         output_text = "Please speak out your question!"
-        speak_text(output_text,2)
+        speak_text(output_text,4)
         with sr.Microphone() as source:
             
 
