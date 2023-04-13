@@ -1,32 +1,74 @@
 #!/usr/bin/env python
 
-import speech_recognition as sr       
-import requests                       
-from bs4 import BeautifulSoup         
-import random                         
 
+import speech_recognition as sr             
+import random                         
 import rospy                          
 from std_msgs.msg import String       
 from datetime import datetime
 import time
 import wolframalpha
+import os
   
+######################################################################################################################################
+######################################################### listen to the user #########################################################
 
-####################################################### subscribe to voice stream from the robot
+def listen(message = ""):
+
+
+    # create a recognizer object
+    recognizer = sr.Recognizer()
+
+
+    # use the recognizer to record audio from the microphone
+    with sr.Microphone() as source:
+
+        # adjust the recognizer for ambient noise of the source (optional)
+        recognizer.adjust_for_ambient_noise(source)
+
+        # clear the screen then print passed message
+        os.system('clear')
+        print(message)
+
+        # listen to the use for four seconds
+        try:
+            audio = recognizer.listen(source, timeout = 4.0)
+        except:
+            print("User is quite.")
+            return ""
+    
+
+    # perform speech recognition
+    try:
+        # use Google Web Speech API for speech recognition
+        transcript = recognizer.recognize_google(audio)
+    except sr.UnknownValueError:
+        print("Unable to recognize speech")
+        return ""
+    except sr.RequestError:
+        print("Failed to connect to speech recognition service")
+        return ""
+
+
+    return transcript
+
+
+######################################################################################################################################
+############################################## subscribe to voice stream from the robot ##############################################
 
 
 
 ####################################################### function to publish the text to the robot
+def publish():
+    pub = rospy.Publisher('tts',String,queue_size=10)
+    rospy.init_node('text_pub',anonymous=True)
+    rate = rospy.Rate(10)
+    def speak_text(output_text, sleeptime):
 
-pub = rospy.Publisher('tts',String,queue_size=10)
-rospy.init_node('text_pub',anonymous=True)
-rate = rospy.Rate(10)
-def speak_text(output_text, sleeptime):
-
-    rospy.loginfo(output_text)
-    pub.publish(output_text)
-    rate.sleep()
-    time.sleep(sleeptime)
+        rospy.loginfo(output_text)
+        pub.publish(output_text)
+        rate.sleep()
+        time.sleep(sleeptime)
 
 
 ####################################################### generate the required text
@@ -198,16 +240,31 @@ def generate_text(user_said):
 
 
 
-####################################################### speech to text
 
 
-# Initialize recognizer class (for recognizing the speech)
-r = sr.Recognizer()
+######################################################################################################################################
+########################################################### main function ############################################################
+
+
+if __name__ == '__main__' :
+
+    while True:
+
+        # listen to the user
+        transcript = listen("Darwin is listening to you, please speak out.")
+        print("User said: ", transcript)
+        time.sleep(3) # for testing
+
+        # check if user said "hey Darwin" or "hey darling"
+        if (transcript.find("hey Darwin") != -1 or transcript.find("hey darling") != -1):
+
+            text_to_speek = "Hello, how can i help you?" # randomize this 
+            print("Darwin said said: ", text_to_speek)
+            # here publish 'text_to_speek' to the robot so that it can speak it out loud, also perform simple action if possible
 
 
 
-
-
+'''
 while True:
 
     # Reading Microphone as source
@@ -241,3 +298,4 @@ while True:
                     user_said = r.recognize_google(audio_text)
                     print ("User said: ", user_said)
                     generate_text(user_said)
+'''
