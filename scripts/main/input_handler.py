@@ -255,7 +255,7 @@ if __name__ == '__main__' :
         # listen to the user
         transcript = listen("Darwin is listening to you, please speak out.")
         print("User said: ", transcript)
-        time.sleep(3) # for testing
+        
 
         # check if user said "hey Darwin" or "hey darling"
         if (transcript.find("hey Darwin") != -1 or transcript.find("hey darling") != -1):
@@ -263,6 +263,7 @@ if __name__ == '__main__' :
             text_to_speek = "Hello, how can i help you?" # randomize this 
             print("Darwin said said: ", text_to_speek)
             # here publish 'text_to_speek' to the robot so that it can speak it out loud, also perform simple action if possible
+        time.sleep(5) # for testing
 
 
 
