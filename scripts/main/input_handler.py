@@ -9,10 +9,15 @@ from datetime import datetime
 import time
 import wolframalpha
 import os
-  
+import pain_handler
+
+
+
 ######################################################################################################################################
 ######################################################### listen to the user #########################################################
 
+
+#time.sleep(100)
 def listen(message = ""):
 
 
@@ -61,48 +66,66 @@ def listen(message = ""):
 
 
 ####################################################### function to publish the text to the robot
-def publish():
+
+def speak_text(output_text, sleeptime):
+
     pub = rospy.Publisher('tts',String,queue_size=10)
     rospy.init_node('text_pub',anonymous=True)
     rate = rospy.Rate(10)
-    def speak_text(output_text, sleeptime):
-
-        rospy.loginfo(output_text)
-        pub.publish(output_text)
-        rate.sleep()
-        time.sleep(sleeptime)
+    rospy.loginfo(output_text)
+    pub.publish(output_text)
+    rate.sleep()
+    time.sleep(sleeptime)
 
 
 ####################################################### generate the required text
 
-def generate_text(user_said):
+def handle_command(transcript):
 
 
     output_text = " "
 
 
+    if (transcript.find("pain") != -1 or transcript.find("hurt") != -1 or transcript.find("backache") != -1 ):
+        state = 0
+        if (transcript.find("neck") != -1):
+            state = 2
+        elif (transcript.find("back") != -1):
+            state = 4 
+        elif (transcript.find("leg") != -1 or transcript.find("knee") != -1 or transcript.find("foot") != -1 or transcript.find("feet") != -1):
+            state = 5
+        elif (transcript.find("arm") != -1 or transcript.find("wrist") != -1 or transcript.find("hand") != -1 ):
+            state = 6
+        elif (transcript.find("shoulder") != -1):
+            state = 7
+        else:
+            output_text = "It would be a great idea to go see a doctor if the pain you described doesn't go away."
+        if(state != 0):
+            pain_handler.process_state(state)
+
+
     # telling a joke
-    if (user_said.find("joke") != -1):
+    elif (transcript.find("joke") != -1):
 
         joke_num = random.randint(0, 1)
         if (joke_num == 0):
-            output_text = "Why don\'t scientists trust atoms? Because they make up everything. HAHAHAHAHAHAHA"
-            speak_text(output_text,7)
+            output_text = "Why don\'t scientists trust atoms? Because they make up everything. HAHAHAHAHAHAHA" 
+            #speak_text(output_text,7)
 
         elif (joke_num == 1):
             output_text = "What did the policeman say to his hungry stomach? Freeze. You\'re under a vest. HAHAHAHAHAHAHA"
-            speak_text(output_text,8)
+            #speak_text(output_text,8)
 
         
 
 
 
     # take a note
-    elif (user_said.find("note") != -1):
+    elif (transcript.find("note") != -1):
 
 
         with sr.Microphone() as source:
-
+            
             print("Say your note!")
             output_text = "Please speak out your note!"
             speak_text(output_text,3)
@@ -111,18 +134,18 @@ def generate_text(user_said):
 
             # using google speech recognition
             #print("Text: "+r.recognize_google(audio_text))
-            user_said = r.recognize_google(audio_text)
-            print ("User said: ", user_said)
+            transcript = r.recognize_google(audio_text)
+            print ("User said: ", transcript)
             # Open file in write mode
             with open("example.txt", "w") as f:
                 # Write string to file
-                f.write(user_said)
+                f.write(transcript)
                 output_text = "Your note was saved as a txt file!"
                 speak_text(output_text,4)
 
 
 
-    elif (user_said.find("time") != -1 or user_said.find("date") != -1):
+    elif (transcript.find("time") != -1 or transcript.find("date") != -1):
 
     
         # datetime object containing current date and time
@@ -173,19 +196,19 @@ def generate_text(user_said):
 
 
 
-        if (user_said.find("date") != -1):
+        if (transcript.find("date") != -1):
             output_text = now.strftime("today's date is %d " + month + " %Y.")
             print(output_text)
             speak_text(output_text,3)
 
-        if (user_said.find("time") != -1):
+        if (transcript.find("time") != -1):
             output_text = now.strftime(" Time now is " + hour + ":%M " + ampm)
             print(output_text)
             speak_text(output_text,3)
 
 
 
-    elif (user_said.find("search") != -1):
+    elif (transcript.find("search") != -1):
 
         print("Say your question!")
         output_text = "Please speak out your question!"
@@ -198,9 +221,9 @@ def generate_text(user_said):
 
             # using google speech recognition
             #print("Text: "+r.recognize_google(audio_text))
-            user_said = r.recognize_google(audio_text)
-            print ("User said: ", user_said)
-            question = user_said
+            transcript = r.recognize_google(audio_text)
+            print ("User said: ", transcript)
+            question = transcript
 
             # App id obtained by the above steps
             app_id = "7KHGE6-RTHTWQXY7G"
@@ -258,47 +281,19 @@ if __name__ == '__main__' :
         
 
         # check if user said "hey Darwin" or "hey darling"
-        if (transcript.find("hey Darwin") != -1 or transcript.find("hey darling") != -1):
+        if (transcript.find("hey Darwin") != -1 or transcript.find("hey darling") != -1 or transcript.find("hey Darlin") != -1):
 
-            text_to_speek = "Hello, how can i help you?" # randomize this 
-            print("Darwin said said: ", text_to_speek)
+            transcript = listen("Hello, how can i help you?")
+            print("User said: ", transcript)
+            text = handle_command(transcript)
+            print(text)
+            text_to_speek = "Hello, how can i help you?" # randomize this
+            #print("Darwin said: ", text_to_speek)
+            
             # here publish 'text_to_speek' to the robot so that it can speak it out loud, also perform simple action if possible
+
+
+
         time.sleep(5) # for testing
 
 
-
-'''
-while True:
-
-    # Reading Microphone as source
-    # listening the speech and store in audio_text variable
-    with sr.Microphone() as source:
-
-        print("Say \"hey Darwin\"!")
-        r.adjust_for_ambient_noise(source)
-        audio_text = r.listen(source)
-
-        # using google speech recognition
-        #print("Text: "+r.recognize_google(audio_text))
-        user_said = r.recognize_google(audio_text)
-        print ("User said: ", user_said)
-
-        if (user_said.find("hey Darwin") != -1 or user_said.find("hey darling") != -1):
-
-
-            output_text = generate_text(user_said)
-            if (output_text == " "):
-
-                
-                print("how can i help you?") # placeholder
-                speak_text("how can i help you?",3)
-                with sr.Microphone() as source:
-                    
-                    r.adjust_for_ambient_noise(source)
-                    audio_text = r.listen(source)
-                    #print("Text: "+r.recognize_google(audio_text))
-
-                    user_said = r.recognize_google(audio_text)
-                    print ("User said: ", user_said)
-                    generate_text(user_said)
-'''

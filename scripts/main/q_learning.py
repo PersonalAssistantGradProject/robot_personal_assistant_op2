@@ -242,10 +242,6 @@ def print_action(action):
 
 
 
-
-
-
-
 # create a "CustomEnv" object
 env = CustomEnv()
 
@@ -353,3 +349,7 @@ for episode in range (num_episodes):
 np.set_printoptions(precision=3)
 print("\n\n----- Finalized Q-table -----\n")
 print(q_table)
+
+
+# save the Q-table to a file called "q_table.npy"
+np.save("./q_table.npy", q_table)
