@@ -10,43 +10,41 @@ import time
 import wolframalpha
 import os
 import pain_handler
+import threading
 
 
 
 ######################################################################################################################################
 ######################################################### listen to the user #########################################################
 
-
-#time.sleep(100)
-def listen(message = ""):
-
-
-    # create a recognizer object
-    recognizer = sr.Recognizer()
+# create a recognizer object
+recognizer = sr.Recognizer()
 
 
+
+def listen(message = "", to = 30):
+
+    
     # use the recognizer to record audio from the microphone
+    
     with sr.Microphone() as source:
-
         # adjust the recognizer for ambient noise of the source (optional)
         recognizer.adjust_for_ambient_noise(source)
-
         # clear the screen then print passed message
         os.system('clear')
         print(message)
-
         # listen to the use for four seconds
         try:
-            audio = recognizer.listen(source, timeout = 4.0)
+            audio = recognizer.listen(source, timeout = to)
         except:
             print("User is quite.")
-            return ""
+            return "."
     
 
     # perform speech recognition
     try:
         # use Google Web Speech API for speech recognition
-        transcript = recognizer.recognize_google(audio)
+        transcript = recognizer.recognize_google(audio, language='en-US')
     except sr.UnknownValueError:
         print("Unable to recognize speech")
         return ""
@@ -85,7 +83,7 @@ def handle_command(transcript):
 
     output_text = " "
 
-
+    # handle pain
     if (transcript.find("pain") != -1 or transcript.find("hurt") != -1 or transcript.find("backache") != -1 ):
         state = 0
         if (transcript.find("neck") != -1):
@@ -104,7 +102,9 @@ def handle_command(transcript):
             pain_handler.process_state(state)
 
 
-    # telling a joke
+
+
+    # tell a joke
     elif (transcript.find("joke") != -1):
 
         joke_num = random.randint(0, 1)
@@ -124,20 +124,19 @@ def handle_command(transcript):
     elif (transcript.find("note") != -1):
 
 
-        with sr.Microphone() as source:
-            
-            print("Say your note!")
-            output_text = "Please speak out your note!"
-            speak_text(output_text,3)
-            r.adjust_for_ambient_noise(source)
-            audio_text = r.listen(source)
+        # say: Please speak out your note!
+        transcript = listen("Please speak out your note!")
 
-            # using google speech recognition
-            #print("Text: "+r.recognize_google(audio_text))
-            transcript = r.recognize_google(audio_text)
-            print ("User said: ", transcript)
-            # Open file in write mode
-            with open("example.txt", "w") as f:
+
+
+
+
+        
+            
+
+
+        # Open file in write mode
+        with open("example.txt", "w") as f:
                 # Write string to file
                 f.write(transcript)
                 output_text = "Your note was saved as a txt file!"
@@ -273,17 +272,31 @@ def handle_command(transcript):
 
 if __name__ == '__main__' :
 
+
+
     while True:
 
         # listen to the user
-        transcript = listen("Darwin is listening to you, please speak out.")
-        print("User said: ", transcript)
-        
+        t1 = threading.Thread(target=listen, args=("test1", 1))
+        t2 = threading.Thread(target=listen, args=("test2", 1))
+        t1.start()
+        time.sleep(1)
+        t2.start()
+        time.sleep(1)
 
+        t1.join()
+        t2.join()
+        output1 = t1.result()
+        output2 = t2.result()
+        #transcript = listen("Darwin is listening to you, please speak out.",1)
+        #print("User said: ", transcript)
+        print("User said: ", output1)
+        print("User said: ", output2)
+        transcript =""
         # check if user said "hey Darwin" or "hey darling"
         if (transcript.find("hey Darwin") != -1 or transcript.find("hey darling") != -1 or transcript.find("hey Darlin") != -1):
 
-            transcript = listen("Hello, how can i help you?")
+            transcript = listen("Hello, how can i help you?", 5)
             print("User said: ", transcript)
             text = handle_command(transcript)
             print(text)
@@ -294,6 +307,6 @@ if __name__ == '__main__' :
 
 
 
-        time.sleep(5) # for testing
+        #time.sleep(5) # for testing
 
 

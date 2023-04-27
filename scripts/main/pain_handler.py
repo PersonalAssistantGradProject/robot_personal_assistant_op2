@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
 import numpy as np
-import random
-
+import rospkg
+import os
 
 # Function to print state number and name (used for testing)
 def print_state(state):
@@ -57,8 +57,12 @@ def print_action(action):
 
         
 def process_state(state):
-    # load Q-table
-    q_table = np.load("q_table.npy")
+
+    # load Q-table from "scripts/main/q_learning/q_table.npy"
+    rospack = rospkg.RosPack()
+    package_path = rospack.get_path('robot_personal_assistant_op2')
+    q_table_path = os.path.join(package_path, 'scripts/main/q_learning/q_table.npy')
+    q_table = np.load(q_table_path)
 
     # print updated Q-table
     np.set_printoptions(precision=3)
