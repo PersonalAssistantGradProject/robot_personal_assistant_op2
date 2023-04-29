@@ -11,15 +11,12 @@ import wolframalpha
 import os
 import pain_handler
 import threading
-
+import face_recognition
+import facial_recognition
 
 
 ######################################################################################################################################
 ######################################################### listen to the user #########################################################
-
-# create a recognizer object
-recognizer = sr.Recognizer()
-
 
 
 def listen(message = "", to = 30):
@@ -271,6 +268,47 @@ def handle_command(transcript):
 
 
 if __name__ == '__main__' :
+
+
+
+    omar_image = face_recognition.load_image_file("op2_tmp/omar.jpg")
+    mohammad_image = face_recognition.load_image_file("op2_tmp/mohammad.jpg")
+    ahmad_image = face_recognition.load_image_file("op2_tmp/ahmad.jpg")
+
+    while True:
+        auth_results = facial_recognition.recongize_faces(omar_image, mohammad_image, ahmad_image)
+
+        if (auth_results[0]):
+            # say hello Omar & welcome back
+            print("Hello Omar")
+            break
+
+        if (auth_results[1]):
+            # say hello Mohammad & welcome back
+            print("Hello Mohammad")
+            break
+
+        if (auth_results[2]):
+            # say hello Ahmad & welcome back
+            print("Hello Ahmad")
+            break
+
+    
+
+        
+
+
+    
+    print("Finished!!!!!!!!!!!!!!!!!!!!!!!")
+    time.sleep(100)
+
+
+
+
+    # create a recognizer object
+    recognizer = sr.Recognizer()
+
+
 
 
 
