@@ -323,7 +323,7 @@ for episode in range (num_episodes):
 
 
         # update Q-table for Q(s,a)
-        # Update Q(s,a):= Q(s,a) + lr [R(s,a) + gamma * max Q(s',a') - Q(s,a)]1
+        # Update Q(s,a):= Q(s,a) + lr [R(s,a) + gamma * max Q(s',a') - Q(s,a)]
         # qtable[new_state,:] : all the actions we can take from new state.
         q_table[state,action]=q_table[state,action] * (1-learning_rate) + \
             learning_rate *(reward+ discount_rate*np.max(q_table[new_state,:]))
@@ -354,11 +354,8 @@ print("\n\n----- Finalized Q-table -----\n")
 print(q_table)
 
 
-
+# save the Q-table to "scripts/main/q_learning/q_table.npy"
 rospack = rospkg.RosPack()
-
 package_path = rospack.get_path('robot_personal_assistant_op2')
-scripts_path = os.path.join(package_path, 'scripts/main/q_learning/q_table.npy')
-
-# save the Q-table to a file called "q_table.npy"
-np.save(scripts_path, q_table)
+q_table_path = os.path.join(package_path, 'scripts/main/q_learning/q_table.npy')
+np.save(q_table_path, q_table)
