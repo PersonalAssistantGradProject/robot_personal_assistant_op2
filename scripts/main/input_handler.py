@@ -274,6 +274,7 @@ if __name__ == '__main__' :
     omar_image = face_recognition.load_image_file("op2_tmp/omar.jpg")
     mohammad_image = face_recognition.load_image_file("op2_tmp/mohammad.jpg")
     ahmad_image = face_recognition.load_image_file("op2_tmp/ahmad.jpg")
+    print("faces have been loaded!")
 
     while True:
         auth_results = facial_recognition.recongize_faces(omar_image, mohammad_image, ahmad_image)
@@ -283,15 +284,17 @@ if __name__ == '__main__' :
             print("Hello Omar")
             break
 
-        if (auth_results[1]):
+        elif (auth_results[1]):
             # say hello Mohammad & welcome back
             print("Hello Mohammad")
             break
 
-        if (auth_results[2]):
+        elif (auth_results[2]):
             # say hello Ahmad & welcome back
             print("Hello Ahmad")
             break
+        else:
+            print("Not authentic user. . . ")
 
     
 
