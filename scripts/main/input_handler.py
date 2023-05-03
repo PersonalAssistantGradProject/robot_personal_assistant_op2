@@ -13,6 +13,7 @@ import pain_handler
 import threading
 import face_recognition
 import facial_recognition
+import speech_recognizer
 
 
 ######################################################################################################################################
@@ -269,7 +270,7 @@ def handle_command(transcript):
 
 if __name__ == '__main__' :
 
-
+    """ 
 
     omar_image = face_recognition.load_image_file("op2_tmp/omar.jpg")
     mohammad_image = face_recognition.load_image_file("op2_tmp/mohammad.jpg")
@@ -296,17 +297,20 @@ if __name__ == '__main__' :
         else:
             print("Not authentic user. . . ")
 
-    
+     """
 
         
 
 
     
-    print("Finished!!!!!!!!!!!!!!!!!!!!!!!")
+    #print("Finished!!!!!!!!!!!!!!!!!!!!!!!")
+    #time.sleep(5)
+    found_words = speech_recognizer.speech_recognizer(["Darwin","darling","Darlin"])
+    print(found_words)
+    print("Finished222222222222222222!!!!!!!!!!!!!!!!!!!!!!!")
+
+
     time.sleep(100)
-
-
-
 
     # create a recognizer object
     recognizer = sr.Recognizer()
