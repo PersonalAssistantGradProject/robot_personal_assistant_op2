@@ -1,6 +1,15 @@
 #!/usr/bin/env python
+"""
 
 
+This Python file serves as the primary module for handling user input. It 
+imports and utilizes functions from other Python files to accomplish its tasks.
+
+
+
+"""
+
+# imported libraries
 import speech_recognition as sr             
 import random                         
 import rospy                          
@@ -9,11 +18,10 @@ from datetime import datetime
 import time
 import wolframalpha
 import os
-import pain_handler
 import threading
-import face_recognition
-import facial_recognition
-import speech_recognizer
+import face_recognition 
+import pain_handler # pain_handler.py
+import face_recognizer # face_recognizer.py
 
 
 ######################################################################################################################################
@@ -270,15 +278,17 @@ def handle_command(transcript):
 
 if __name__ == '__main__' :
 
-    """ 
 
-    omar_image = face_recognition.load_image_file("op2_tmp/omar.jpg")
-    mohammad_image = face_recognition.load_image_file("op2_tmp/mohammad.jpg")
-    ahmad_image = face_recognition.load_image_file("op2_tmp/ahmad.jpg")
+
+    handle_command("hey darwin, i have leg pain")
+    time.sleep(100)
+    
+
+    omar_image,mohammad_image,ahmad_image = face_recognizer.load_faces()
     print("faces have been loaded!")
 
     while True:
-        auth_results = facial_recognition.recongize_faces(omar_image, mohammad_image, ahmad_image)
+        auth_results = face_recognizer.recongize_faces(omar_image, mohammad_image, ahmad_image)
 
         if (auth_results[0]):
             # say hello Omar & welcome back
@@ -297,7 +307,7 @@ if __name__ == '__main__' :
         else:
             print("Not authentic user. . . ")
 
-     """
+     
 
         
 

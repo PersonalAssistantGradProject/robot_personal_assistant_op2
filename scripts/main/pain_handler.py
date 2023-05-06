@@ -1,4 +1,16 @@
 #!/usr/bin/env python
+"""
+
+
+This Python file contains a function named "process_state" which is
+invoked by "input_handler.py". The purpose of this function is to
+receive the user's state as input, and then instruct the robot to
+execute the appropriate actions based on the state provided.
+
+
+"""
+
+
 
 import numpy as np
 import rospkg

@@ -40,7 +40,7 @@ Action 11: see a doctor
 """
 
 
-# included libraries
+# imported libraries
 import numpy as np
 import gym
 from gym import spaces
@@ -52,7 +52,9 @@ import os
 
 # The "training_agent" function serves to train the Q-learning agent by simulating human
 # responses to all action recommendations provided by the agent.
+#
 # The simulation employs a simplified approach that mainly uses chances and randomization.
+#
 def training_agent(state,action):
 
     # State 1: neck pain + bad posture
@@ -157,9 +159,12 @@ def training_agent(state,action):
     
 
 
-# The "CustomEnv" class defines a customized environment for our Q-learning algorithm, 
-# specifically with 8 states and 12 actions. These specifications determine the size
-# of our Q-table. Additionally, the class features customized reset and step functions.
+# The "CustomEnv" class defines a customized environment for our Q-learning
+# algorithm, specifically with 8 states and 12 actions. These specifications
+# determine the size of our Q-table.
+#
+# Additionally, the class features customized reset and step functions.
+#
 class CustomEnv(gym.Env):
 
     def __init__(self):

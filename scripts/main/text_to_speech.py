@@ -1,5 +1,18 @@
 #!/usr/bin/env python
 
+
+"""
+
+
+This Python file creates a ROS node called "text_to_speech" which subscribes
+to the "/tts" ROS topic. Whenever a string message is received on this topic,
+the node utilizes ggts to convert the text to speech. The resulting audio is
+then played through the robot's speakers, giving the impression that the
+robot is speaking the text.
+
+
+"""
+
 import pyttsx3
 import rospy
 from std_msgs.msg import String
@@ -28,7 +41,7 @@ def listener():
     # anonymous=True flag means that rospy will choose a unique
     # name for our 'listener' node so that multiple listeners can
     # run simultaneously.
-    rospy.init_node('text_sub', anonymous=True)
+    rospy.init_node('text_to_speech', anonymous=True)
 
     rospy.Subscriber('tts', String, callback)
 
