@@ -22,6 +22,7 @@ from gtts import gTTS
 import rospy
 from std_msgs.msg import String
 from playsound import playsound
+import os
 
 
 
@@ -47,14 +48,16 @@ def speak(text):
     print("generating audio")
     tts = gTTS(text=text, lang='en', tld='com', slow=False) 
 
+
+    mp3_file_path = os.path.expanduser("~/op2_tmp/speech.mp3")
     # save the generated speech to an mp3 file
     print("saving mp3 file")
-    tts.save("~/op2_tmp/speech.mp3")
-
+    tts.save(mp3_file_path)
+    
     # play the mp3 file using playsound
     print("loading mp3 file")
-    playsound("~/op2_tmp/speech.mp3")
-    finished_talking_publisher = rospy.Publisher('/finished_talking', String, queue_size=10)
+    playsound(mp3_file_path)
+    global finished_talking_publisher
     finished_talking_publisher.publish("finished!")
     rospy.loginfo("finished!")
 
@@ -70,11 +73,12 @@ def listener():
     # name for our 'listener' node so that multiple listeners can
     # run simultaneously.
     rospy.init_node('text_to_speech', anonymous=True)
-    rospy.Subscriber('/text_to_speech', String, callback)
+    rospy.Subscriber('/tts', String, callback)
 
     # spin() simply keeps python from exiting until this node is stopped
     rospy.spin()
 
 
 if __name__ == '__main__':
+    finished_talking_publisher = rospy.Publisher('/finished_talking', String, queue_size=10)
     listener()

@@ -26,6 +26,7 @@ import cv2
 import rospy
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
+import os
 
 
 # The "load_faces" function loads the images of the faces of the three
@@ -39,9 +40,12 @@ from cv_bridge import CvBridge
 #
 def load_faces():
 
-    omar_image = face_recognition.load_image_file("~/op2_tmp/omar.jpg") # path to Omar face image, change if needed.
-    mohammad_image = face_recognition.load_image_file("~/op2_tmp/mohammad.jpg") # path to Mohammad face image, change if needed.
-    ahmad_image = face_recognition.load_image_file("~/op2_tmp/ahmad.jpg") # path to Ahmad face image, change if needed.
+    omar_image_path = os.path.expanduser("~/op2_tmp/omar.jpg") # path to Omar face image, change if needed.
+    omar_image = face_recognition.load_image_file(omar_image_path) 
+    mohammad_image_path = os.path.expanduser("~/op2_tmp/mohammad.jpg") # path to Mohammad face image, change if needed.
+    mohammad_image = face_recognition.load_image_file(mohammad_image_path) 
+    ahmad_image_path = os.path.expanduser("~/op2_tmp/ahmad.jpg") # path to Ahmad face image, change if needed.
+    ahmad_image = face_recognition.load_image_file(ahmad_image_path) 
 
     return omar_image, mohammad_image, ahmad_image
 
@@ -85,17 +89,19 @@ def recongize_faces(omar_image, mohammad_image, ahmad_image):
     # define subscriber on ROS topic '/webcam' with Image data 
     rospy.Subscriber('/webcam', Image, callback)
 
+    unknown_image_path = os.path.expanduser("~/op2_tmp/unknown.jpg")
+
     # perform face recognition on the recieved image
     while not rospy.is_shutdown():
 
         if last_image is not None:
 
-
+             
             # save the image to the path 'op2_tmp/unknown.jpg'
-            cv2.imwrite('~/op2_tmp/unknown.jpg', last_image)
+            cv2.imwrite(unknown_image_path, last_image)
 
             # load the image using 'load_image_file' 
-            unknown_image = face_recognition.load_image_file("~/op2_tmp/unknown.jpg")
+            unknown_image = face_recognition.load_image_file(unknown_image_path)
 
             # Get the face encodings for each face in each face image
             # Since there could be more than one face in each image, it returns a list of encodings.
@@ -122,3 +128,35 @@ def recongize_faces(omar_image, mohammad_image, ahmad_image):
             return auth_results
             
         rate.sleep()
+
+
+
+def security_check():
+
+    omar_image,mohammad_image,ahmad_image = load_faces()
+    print("faces have been loaded!")
+    welcome_message = "Hello"
+    number_of_auth_users = 0
+    while True:
+        auth_results = recongize_faces(omar_image, mohammad_image, ahmad_image)
+
+        if (auth_results[0]):
+            welcome_message+= " Omar"
+            number_of_auth_users += 1 
+
+        if (auth_results[1]):
+            if(number_of_auth_users > 0):
+                welcome_message+= " and"
+            welcome_message+= " Mohammad"
+            number_of_auth_users +=1
+
+        if (auth_results[2]):
+            if(number_of_auth_users > 0):
+                welcome_message+= " and"
+            welcome_message+= " Ahmad"
+            number_of_auth_users +=1
+
+        if (number_of_auth_users > 0):
+            welcome_message+= "."
+            return welcome_message
+    
