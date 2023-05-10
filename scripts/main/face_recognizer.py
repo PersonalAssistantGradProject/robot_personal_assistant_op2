@@ -70,15 +70,12 @@ def recongize_faces(omar_image, mohammad_image, ahmad_image):
 
     print("started facial recognition!")
 
-    # initalize ROS node 'face_recognizer'
-    rospy.init_node('face_recognizer', anonymous=True)
-
     # CvBridge to convert the recieved image into suitable format
     bridge = CvBridge()
     rate = rospy.Rate(1) # 1Hz
     last_image = None
 
-    # callback function called when we recieve an image on '/webcam'
+    # callback function called when an image is recieved on '/webcam'
     def callback(data):
         nonlocal last_image
         # convert the recieved image into suitable format using CvBridge
@@ -93,10 +90,10 @@ def recongize_faces(omar_image, mohammad_image, ahmad_image):
         if last_image is not None:
 
             # vertically flip the image (because robot webcam is flipped)
-            last_image_flipped = cv2.flip(last_image,0)
+            #last_image_flipped = cv2.flip(last_image,0)
 
             # save the image to the path 'op2_tmp/unknown.jpg'
-            cv2.imwrite('op2_tmp/unknown.jpg', last_image_flipped)
+            cv2.imwrite('op2_tmp/unknown.jpg', last_image)
 
             # load the image using 'load_image_file' 
             unknown_image = face_recognition.load_image_file("op2_tmp/unknown.jpg")
@@ -108,7 +105,7 @@ def recongize_faces(omar_image, mohammad_image, ahmad_image):
                 omar_face_encoding = face_recognition.face_encodings(omar_image)[0]
                 mohammad_face_encoding = face_recognition.face_encodings(mohammad_image)[0]
                 ahmad_face_encoding = face_recognition.face_encodings(ahmad_image)[0]
-                unknown_face_encoding = face_recognition.face_encodings(unknown_image)[0]
+                unknown_face_encoding = face_recognition.face_encodings(unknown_image)
             except IndexError:
                 print("I wasn't able to locate any faces in the camera feed.")
                 return [False, False, False]
@@ -118,9 +115,11 @@ def recongize_faces(omar_image, mohammad_image, ahmad_image):
                 mohammad_face_encoding,
                 ahmad_face_encoding
             ]
-
-            # results is an array of True/False telling if the unknown face matched anyone in the known_faces array
-            auth_results = face_recognition.compare_faces(known_faces, unknown_face_encoding, tolerance=0.4)
+            auth_results = [False, False, False]
+            for face in unknown_face_encoding:
+                # results is an array of True/False telling if the unknown face matched anyone in the known_faces array
+                face_results = face_recognition.compare_faces(known_faces, face, tolerance=0.4)
+                auth_results = [x or y for x, y in zip(auth_results, face_results)]
             return auth_results
             
         rate.sleep()
