@@ -48,11 +48,11 @@ def speak(text):
 
     # save the generated speech to an mp3 file
     print("saving mp3 file")
-    tts.save("op2_tmp/speech.mp3")
+    tts.save("~/op2_tmp/speech.mp3")
 
     # play the mp3 file using playsound
     print("loading mp3 file")
-    playsound("op2_tmp/speech.mp3")
+    playsound("~/op2_tmp/speech.mp3")
     finished_talking_publisher = rospy.Publisher('/finished_talking', String, queue_size=10)
     finished_talking_publisher.publish("finished!")
     rospy.loginfo("finished!")

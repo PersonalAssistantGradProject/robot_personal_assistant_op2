@@ -3,7 +3,8 @@ import socket
 import time
 import speech_recognition as sr
 import threading
-
+import rospy
+from std_msgs.msg import String
 
 
 
@@ -19,19 +20,16 @@ SAMPLE_WIDTH = 2  # Sample width of the audio data
 RECORD_SECONDS = 2  # Duration of audio to accumulate before processing
 OVERLAP_SECONDS = 0.5  # Duration of overlap between consecutive audio segments
 
-transcript = ""
 
 def test(data_buffer):
     #print(f"Thread {threading.current_thread().name} is running, data size is: {len(data_buffer)}")
     # Convert the accumulated data to an AudioData object
     audio_data = sr.AudioData(data_buffer, sample_rate=SAMPLE_RATE, sample_width=SAMPLE_WIDTH)
-                
     # Transcribe the audio data
     try:
-        text = r.recognize_google(audio_data)
-        global transcript
-        transcript = transcript + "|||" + text
-        print(transcript)
+        transcript = r.recognize_google(audio_data)
+        text_publisher.publish(transcript)
+        
     except sr.UnknownValueError:
         print("Could not understand audio")
     except sr.RequestError as e:
@@ -44,6 +42,12 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.listen()
     print(f"Listening for audio data on {HOST}:{PORT}...")
     conn, addr = s.accept()
+
+    print("starting rosnode")
+    text_publisher = rospy.Publisher('/speech_recognition_output',String,queue_size=1)
+    
+    rospy.init_node('audio_reciever_speech_recognition',anonymous=True)
+    print("test")
     with conn:
         print(f"Connected by {addr}")
         data_buffer = b''  # Initialize an empty buffer to store received data

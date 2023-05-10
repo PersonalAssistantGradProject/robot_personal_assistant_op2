@@ -19,6 +19,7 @@ import threading
 import face_recognizer # face_recognizer.py
 import command_handler # command_handler.py
 import text_to_speech_publisher # text_to_speech_publisher.py
+import word_finder # word_finder.py
 
 
 ######################################################################################################################################
@@ -90,16 +91,20 @@ def speak_text(output_text, sleeptime):
 
 if __name__ == '__main__' :
 
+    
     print("started")
     # initalize ROS node 'input_handler'
     text_publisher = text_to_speech_publisher.init()
     rospy.init_node('input_handler', anonymous=True)
+    
     str1 = "In addition to its economic and social benefits, education also has important personal benefits. It can improve individuals' health outcomes, as people with higher levels of education tend to have better health and access to healthcare. Education can also increase individuals' life satisfaction and overall well-being, as it provides them with opportunities for personal growth and self-fulfillment."
     str2 = "Overall, education is essential for personal, social, and economic development, and is a fundamental human right that should be accessible to all. By investing in education, we can create a brighter future for individuals and society as a whole."
     str3 = "Education is one of the most essential components of human development, as it is through education that individuals acquire knowledge, skills, and values that enable them to thrive in society. Education is not only important for personal development but also for societal and economic development. It allows individuals to gain a deeper understanding of the world around them, and provides them with the tools necessary to solve problems and make informed decisions. Education also plays a critical role in creating a more just and equitable society, as it can be used to address social inequalities and promote social mobility."
     str4 = "In the workplace, communication is critical for success. It is through communication that teams collaborate and work together to achieve common goals. Communication also enables employees to receive and provide feedback, which is essential for personal and professional growth. Good communication skills are also necessary for leadership, as effective leaders must be able to articulate their vision and goals to their team while also listening to and addressing the concerns and ideas of their team members. In addition to its interpersonal and professional benefits, communication is also important for personal growth and self-expression. Communication enables individuals to express themselves creatively, share their experiences and perspectives, and connect with others who share their interests and passions."
     str5 = "Hello my name is Amo! How can I help you?"
+    
     text_to_speech_publisher.publish_text(str5, text_publisher)
+    
     print("i finished talking")
 
     omar_image,mohammad_image,ahmad_image = face_recognizer.load_faces()
@@ -136,7 +141,14 @@ if __name__ == '__main__' :
             print("Not authentic user. . . ")
 
 
-   
+
+    list_of_words = ["darwin","darling","darlin"]
+    count = 0
+    while True:
+        word_finder.check_words(list_of_words)
+        print("user said darwin",count)
+        count += 1
+        
     text_to_speech_publisher.publish_text(welcome_string, text_publisher)
     print(welcome_string)
         

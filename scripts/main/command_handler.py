@@ -12,7 +12,7 @@ import pain_handler # pain_handler.py
 
 def command_handler(transcript):
 
-
+    
     output_text = " "
 
     # handle pain

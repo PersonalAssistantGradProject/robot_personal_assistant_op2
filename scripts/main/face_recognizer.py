@@ -39,9 +39,9 @@ from cv_bridge import CvBridge
 #
 def load_faces():
 
-    omar_image = face_recognition.load_image_file("op2_tmp/omar.jpg") # path to Omar face image, change if needed.
-    mohammad_image = face_recognition.load_image_file("op2_tmp/mohammad.jpg") # path to Mohammad face image, change if needed.
-    ahmad_image = face_recognition.load_image_file("op2_tmp/ahmad.jpg") # path to Ahmad face image, change if needed.
+    omar_image = face_recognition.load_image_file("~/op2_tmp/omar.jpg") # path to Omar face image, change if needed.
+    mohammad_image = face_recognition.load_image_file("~/op2_tmp/mohammad.jpg") # path to Mohammad face image, change if needed.
+    ahmad_image = face_recognition.load_image_file("~/op2_tmp/ahmad.jpg") # path to Ahmad face image, change if needed.
 
     return omar_image, mohammad_image, ahmad_image
 
@@ -66,6 +66,7 @@ def load_faces():
 # The function is invoked in an infinite loop by "input_handler.py"
 # until one of the authorized users is successfully recognized.
 #
+
 def recongize_faces(omar_image, mohammad_image, ahmad_image):
 
     print("started facial recognition!")
@@ -89,14 +90,12 @@ def recongize_faces(omar_image, mohammad_image, ahmad_image):
 
         if last_image is not None:
 
-            # vertically flip the image (because robot webcam is flipped)
-            #last_image_flipped = cv2.flip(last_image,0)
 
             # save the image to the path 'op2_tmp/unknown.jpg'
-            cv2.imwrite('op2_tmp/unknown.jpg', last_image)
+            cv2.imwrite('~/op2_tmp/unknown.jpg', last_image)
 
             # load the image using 'load_image_file' 
-            unknown_image = face_recognition.load_image_file("op2_tmp/unknown.jpg")
+            unknown_image = face_recognition.load_image_file("~/op2_tmp/unknown.jpg")
 
             # Get the face encodings for each face in each face image
             # Since there could be more than one face in each image, it returns a list of encodings.

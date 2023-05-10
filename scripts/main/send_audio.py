@@ -15,7 +15,7 @@ audio = pyaudio.PyAudio()
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 # get the IP address of the receiving PC
-host = "0.0.0.0" # change to the IP address of the receiving PC
+host = "127.0.0.2" # change to the IP address of the receiving PC
 port = 5000
 
 # connect to the receiving PC
