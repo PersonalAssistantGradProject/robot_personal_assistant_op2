@@ -6,14 +6,44 @@ import speech_recognition as sr
 import random                                    
 from datetime import datetime
 import wolframalpha
+import time
 import pain_handler # pain_handler.py
+import word_finder # word_finder.py
+import text_to_speech_publisher # text_to_speech_publisher.py
 
 
 
-def command_handler(transcript):
 
+def command_handler():
+
+
+    list_of_words = ["pain","hurt","backache"] + ["joke","funny"] + ["note"] + ["time","date"] + ["search", "google","look"]
     
-    output_text = " "
+    found_word, pain_type = word_finder.check_words(list_of_words)
+    print("found_word =", found_word)
+    print ("pain_type =", pain_type)
+    if (found_word == "pain" or found_word == "hurt" or found_word == "backache"):
+        # check pain type
+        state = 0
+        if (pain_type == "neck"):
+            state = 2
+        elif (pain_type == "back"):
+            state = 4
+        elif (pain_type == "leg" or pain_type == "knee" or pain_type == "foot" or pain_type == "feet"):
+            state = 5
+        elif (pain_type == "arm" or pain_type == "wrist" or pain_type == "arm"):
+            state = 6
+        elif (pain_type == "shoulder"):
+            state = 7
+        else:
+            output_text = "I'm sorry to hear about the pain you're experiencing. " \
+                + "I would strongly recommend seeking medical attention if the symptoms persist. " \
+                    +" A visit to a doctor may help determine the cause of the pain and lead to proper treatment."
+            text_to_speech_publisher.publish_text(output_text)
+        print(state)
+
+
+    time.sleep(100)
 
     # handle pain
     if (transcript.find("pain") != -1 or transcript.find("hurt") != -1 or transcript.find("backache") != -1 ):

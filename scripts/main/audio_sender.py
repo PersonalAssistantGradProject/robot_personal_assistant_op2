@@ -19,7 +19,18 @@ host = "127.0.0.2" # change to the IP address of the receiving PC
 port = 5000
 
 # connect to the receiving PC
-s.connect((host, port))
+print(f"waiting to connect to {host}")
+while True:
+    try:
+        s.connect((host, port))
+        
+    except:
+        continue
+    break
+
+print(f"Connected by {host}")
+
+
 
 # start recording audio from the microphone
 stream = audio.open(format=FORMAT, channels=CHANNELS,
