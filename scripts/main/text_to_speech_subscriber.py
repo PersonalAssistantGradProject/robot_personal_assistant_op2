@@ -5,7 +5,7 @@
 
 
 This Python file creates a ROS node called "text_to_speech" which subscribes
-to the "/tts" ROS topic.
+to the "/text_to_speech" ROS topic.
 
 Whenever a string message is received on this topic, the node utilizes gTTS
 to convert the text to speech.
@@ -38,6 +38,7 @@ def callback(data):
 # 
 # The generated audio is saved as an mp3 file, and then played through the robot's speaker.
 #
+
 def speak(text):
 
     
@@ -69,7 +70,7 @@ def listener():
     # name for our 'listener' node so that multiple listeners can
     # run simultaneously.
     rospy.init_node('text_to_speech', anonymous=True)
-    rospy.Subscriber('/tts', String, callback)
+    rospy.Subscriber('/text_to_speech', String, callback)
 
     # spin() simply keeps python from exiting until this node is stopped
     rospy.spin()
