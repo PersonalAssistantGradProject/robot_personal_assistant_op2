@@ -17,7 +17,7 @@ PORT = 5000  # Use a free port number
 CHUNK = 1024  # Number of bytes to receive at a time
 SAMPLE_RATE = 44100  # Sample rate of the audio data
 SAMPLE_WIDTH = 2  # Sample width of the audio data
-RECORD_SECONDS = 2  # Duration of audio to accumulate before processing
+RECORD_SECONDS = 1.5  # Duration of audio to accumulate before processing
 OVERLAP_SECONDS = 0.5  # Duration of overlap between consecutive audio segments
 
 

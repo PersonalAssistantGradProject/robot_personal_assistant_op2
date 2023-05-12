@@ -33,16 +33,16 @@ if __name__ == '__main__' :
 
 
     # check for authentic users
-    #welcome_message = face_recognizer.security_check()
+    welcome_message = face_recognizer.security_check()
     
-    #text_to_speech_publisher.publish_text(welcome_message)    
+    text_to_speech_publisher.publish_text(welcome_message)    
 
 
 
     list_of_words = ["darwin","darling","darlin"]
     word_finder.check_words(list_of_words)
 
-    message = "How can i help you today"
+    message = "Hello, how can i help you today?"
     text_to_speech_publisher.publish_text(message)  
 
 
