@@ -60,7 +60,7 @@ def speak(text):
     pygame.mixer.music.load(mp3_file_path)
     pygame.mixer.music.play()
     while pygame.mixer.music.get_pos() > -1:
-        pygame.time.Clock.tick(10)
+        pygame.time.Clock().tick(10)
     pygame.quit()
     global finished_talking_publisher
     finished_talking_publisher.publish("finished!")

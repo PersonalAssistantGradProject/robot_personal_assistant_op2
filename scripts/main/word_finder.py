@@ -1,16 +1,29 @@
 #!/usr/bin/env python
 
 import rospy
-from std_msgs.msg import String
-
+from std_msgs.msg import String,Int32
+import text_to_speech_publisher # text_to_speech_publisher.py
 
 
 def check_words(list_of_words):
     # subscribe to the rostopic
 
-
-    rate = rospy.Rate(1) # 1Hz
+    rate = rospy.Rate(1)# 1Hz
     transcript = None
+    bad_posture_time = None
+    
+    def callback1(data):
+        nonlocal bad_posture_time
+        # convert the recieved image into suitable format using CvBridge
+        bad_posture_time = data.data
+        
+
+    if (list_of_words[0] == "darwin"):
+        rospy.Subscriber('/bad_posture_time', Int32, callback1)
+
+    count = 10
+
+    
     def callback(data):
         nonlocal transcript
         # convert the recieved image into suitable format using CvBridge
@@ -25,6 +38,9 @@ def check_words(list_of_words):
     pain_type_found = ""
     pain_types = ["back","neck","leg","foot","feet","knee","arm","wrist","hand","shoulder"]
     while not rospy.is_shutdown():
+
+
+        
 
         if transcript is not None:
             #print("transcript =",transcript)
@@ -46,6 +62,16 @@ def check_words(list_of_words):
             past_past_transcript = past_transcript
             past_transcript = transcript
 
+        if bad_posture_time is not None:
+
+            if (bad_posture_time > 10):
+                    print("count =",count)
+                    if (count == 0):
+                        advice = "I can see that you have bad posture, please fix it!"
+                        text_to_speech_publisher.publish_text(advice)
+                        count = (count + 1) % 20
+                    else:
+                        count = (count + 1) % 20
 
         rate.sleep()
 

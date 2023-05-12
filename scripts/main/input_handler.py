@@ -32,20 +32,19 @@ if __name__ == '__main__' :
     rospy.init_node('input_handler', anonymous=True)
 
 
+
     # check for authentic users
     welcome_message = face_recognizer.security_check()
     
     text_to_speech_publisher.publish_text(welcome_message)    
 
 
+    while True:
+        list_of_words = ["darwin","darling","darlin"]
+        word_finder.check_words(list_of_words)
 
-    list_of_words = ["darwin","darling","darlin"]
-    word_finder.check_words(list_of_words)
+        message = "Hello, how can i help you today?"
+        text_to_speech_publisher.publish_text(message)  
 
-    message = "Hello, how can i help you today?"
-    text_to_speech_publisher.publish_text(message)  
-
-
-
-    command_handler.command_handler()
+        command_handler.command_handler()
         

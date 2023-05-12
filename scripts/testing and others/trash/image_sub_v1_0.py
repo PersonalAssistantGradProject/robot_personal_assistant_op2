@@ -25,7 +25,7 @@ def image_callback(msg) :
     
     # showing the flipped frame
     cv2.imshow("webcam", frame)
-    cv2.imwrite("op2_tmp/unknown.jpg",frame)
+    #cv2.imwrite("op2_tmp/unknown.jpg",frame)
     cv2.waitKey(3)
     
 

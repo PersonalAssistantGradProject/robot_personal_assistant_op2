@@ -36,11 +36,11 @@ def command_handler():
         elif (pain_type == "shoulder"):
             state = 7
         else:
-            output_text = "I'm sorry to hear about the pain you're experiencing. "
-            text_to_speech_publisher.publish_text(output_text)
-            output_text = "I would strongly recommend seeking medical attention if the symptoms persist. "
-            text_to_speech_publisher.publish_text(output_text)
-            output_text = "A visit to a doctor may help determine the cause of the pain and lead to proper treatment."
+            output_text = "I'm sorry to hear about the pain you're experiencing. . . "
+            
+            output_text += "I would strongly recommend seeking medical attention if the symptoms persist. . . "
+            
+            output_text += "A visit to a doctor may help determine the cause of the pain and lead to proper treatment. . ."
             text_to_speech_publisher.publish_text(output_text)
 
         print(state)
