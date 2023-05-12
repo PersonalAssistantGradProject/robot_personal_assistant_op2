@@ -21,8 +21,8 @@ impression that the robot is speaking the text.
 from gtts import gTTS
 import rospy
 from std_msgs.msg import String
-from playsound import playsound
 import os
+import pygame
 
 
 
@@ -56,7 +56,12 @@ def speak(text):
     
     # play the mp3 file using playsound
     print("loading mp3 file")
-    playsound(mp3_file_path)
+    pygame.init()
+    pygame.mixer.music.load(mp3_file_path)
+    pygame.mixer.music.play()
+    while pygame.mixer.music.get_pos() > -1:
+        pygame.time.Clock.tick(10)
+    pygame.quit()
     global finished_talking_publisher
     finished_talking_publisher.publish("finished!")
     rospy.loginfo("finished!")
