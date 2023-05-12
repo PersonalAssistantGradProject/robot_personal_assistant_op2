@@ -32,9 +32,10 @@ def image_pub() :
 		ret, frame = webcam.read()
 		if not ret:
 			break
-		flipped_frame = cv2.flip(frame,0)
+		resized_frame = cv2.resize(frame,(300,225))
+		flipped_frame = cv2.flip(resized_frame,0)
 		# converting frame to ros image message
-		msg = bridge.cv2_to_imgmsg(frame, "bgr8")
+		msg = bridge.cv2_to_imgmsg(flipped_frame, "bgr8")
   
 		# publishing the above message
 		webcam_pub.publish(msg)
