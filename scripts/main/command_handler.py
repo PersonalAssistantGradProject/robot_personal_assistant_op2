@@ -42,8 +42,9 @@ def command_handler():
             
             output_text += "A visit to a doctor may help determine the cause of the pain and lead to proper treatment. . ."
             text_to_speech_publisher.publish_text(output_text)
-
-        print(state)
+        if (state != 0):
+            pain_handler.process_state(state)
+        #print(state)
         return
 
 
