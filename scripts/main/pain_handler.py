@@ -173,9 +173,9 @@ def perform_action(action):
         # say this
         text_num = random.randint(0,2)
         if(text_num == 0):
-            advice += "Let's try a balance exercise. Stand on one leg, lift your other leg behind you, and hold it with your arm for five seconds."
+            advice += "Bend your arms to a 90-degree angle and pull them back towards your body. Repeat this motion 10 times."
         elif(text_num == 1):
-            advice += "Can you try this simple standing balance exercise with me? Lift one leg behind you and hold it with your arm for five seconds, while standing on one leg."
+            advice += "Create a 90-degree angle with your elbows and pull your arms back. Repeat this action 10 times."
         elif(text_num == 2):
             advice +="Try to make your elbows 90 angle, then pull your arms to the back. Do it 10 times."
         

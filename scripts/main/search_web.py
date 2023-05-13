@@ -91,6 +91,7 @@ def handle_search():
 
     # Transcribe the audio using Google's Speech Recognition API
     question = r.recognize_google(audio)
+    print("question = ", question)
 
     # App id obtained by the above steps
     app_id = "7KHGE6-RTHTWQXY7G"
@@ -106,14 +107,15 @@ def handle_search():
     # Includes only text from the response
     try:
         answer = next(result.results).text
+        
     except:
         text_num = random.randint(0, 1)
         if (text_num == 0):
             answer = "My apologies, but I was unable to find an answer to your question."
         elif (text_num == 1):
             answer = "Unfortunately, I was unable to locate an answer to your question."
-
-        text_to_speech_publisher.publish_text(answer)
+    print("answer = ", answer)
+    text_to_speech_publisher.publish_text(answer)
 
 
 
