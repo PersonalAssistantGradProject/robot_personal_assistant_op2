@@ -6,6 +6,8 @@ import numpy as np
 from pydub import AudioSegment
 from pydub.playback import play
 import os
+import rospy
+from std_msgs.msg import String
 import text_to_speech_publisher # text_to_speech_publisher.py
 import word_finder # word_finder.py
 import random
@@ -14,8 +16,9 @@ import random
 
 
 def init():
-
-
+    global audio_publisher
+    audio_publisher = rospy.Publisher('/audio_topic', String, queue_size=10)
+    
     global record_count
     record_count = 0
     directory = os.path.expanduser(f"~/op2_tmp/recordings")
@@ -107,6 +110,7 @@ def record():
     filename = os.path.expanduser(f"~/op2_tmp/recordings/recording{record_count}.mp3")
     audio_segment.export(filename, format="mp3")
     return
+ 
     
 
 
@@ -171,8 +175,24 @@ def playback():
         text_to_speak = f"Your selected recording, number {record_num}, will play now."
     text_to_speech_publisher.publish_text(text_to_speak)
 
-    audio = AudioSegment.from_file(filename, format="mp3")
-    play(audio)
-    return
+    global audio_publisher
+    rate = rospy.Rate(10)
+    with open(filename, 'rb') as f:
+        audio_data = f.read()
+
+    audio_data_str = audio_data.decode('latin-1')  # Decode the audio data to a string
+    audio_publisher.publish(audio_data_str)
+    rate.sleep()
+    finished = None
+    
+    def callback(data):
+        nonlocal finished
+        finished = data.data 
+    
+    rospy.Subscriber('/finished_talking', String, callback)
+
+    while not rospy.is_shutdown():
+        if (finished is not None):
+            return
 
 

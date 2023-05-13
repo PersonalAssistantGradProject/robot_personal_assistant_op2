@@ -213,51 +213,9 @@ def command_handler():
     
 
     elif (found_word == "wikipedia"):
-          search_wikipedia.handle_wikipedia()
-          return
+        search_wikipedia.handle_wikipedia()
+        return
 
 
     print("got stuck")
     return
-
-    '''
-
-        
-    elif (transcript.find("search") != -1):
-
-        print("Say your question!")
-        output_text = "Please speak out your question!"
-        speak_text(output_text,4)
-        with sr.Microphone() as source:
-            
-
-            r.adjust_for_ambient_noise(source)
-            audio_text = r.listen(source)
-
-            # using google speech recognition
-            #print("Text: "+r.recognize_google(audio_text))
-            transcript = r.recognize_google(audio_text)
-            print ("User said: ", transcript)
-            question = transcript
-
-            # App id obtained by the above steps
-            app_id = "7KHGE6-RTHTWQXY7G"
-            
-            # Instance of wolf ram alpha 
-            # client class
-            client = wolframalpha.Client(app_id)
-
-            # Stores the response from 
-            # wolf ram alpha
-            res = client.query(question)
-
-            # Includes only text from the response
-            output_text = next(res.results).text
-            print(output_text)
-            speak_text(output_text,5)
-  
-        '''
-    
-
-
-

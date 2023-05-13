@@ -27,7 +27,7 @@ def publish_text(text,wait = True):
     rospy.Subscriber('/finished_talking', String, callback)
 
     while not rospy.is_shutdown():
-        if (finished is not None or not wait ):
+        if (finished is not None or not wait):
             return
 
 

@@ -1,8 +1,0 @@
-<?xml version="1.0" ?>
-<launch>
-
-
-    <node pkg="robot_personal_assistant_op2" type="image_pub.py" name="image_pub" output="screen"/>
-
-
-</launch>
