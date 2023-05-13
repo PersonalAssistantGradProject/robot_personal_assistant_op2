@@ -7,6 +7,7 @@ from pydub import AudioSegment
 import os
 import speech_recognition as sr
 import wikipedia
+import time
 import text_to_speech_publisher # text_to_speech_publisher.py
 
 
@@ -38,7 +39,7 @@ def handle_wikipedia():
     print(f"Listening for audio data on {HOST}:{PORT}...")
     conn, addr = note_socket.accept()
     print(f"Connected by {addr}")
-
+    
     while True:
         data = conn.recv(CHUNK)
         if not data:
@@ -61,34 +62,41 @@ def handle_wikipedia():
             print("user has been quite for a while . exiting")
             break
 
-        text_num = random.randint(0, 2)
-        if (text_num == 0):
-            text_to_speak = "Your topic is being researched at the moment. Please bear with me while I gather the necessary information."
-        elif (text_num == 1):
-            text_to_speak = "I'm in the process of searching for information related to the topic you provided. I'll respond as soon as I have a comprehensive answer."
-        elif (text_num == 2):
-            text_to_speak = "Your topic has been received and I'm in the process of researching and analyzing it. I'll provide you with a response as soon as possible."
+    text_num = random.randint(0, 2)
+    if (text_num == 0):
+        text_to_speak = "Your topic is being researched at the moment. Please bear with me while I gather the necessary information."
+    elif (text_num == 1):
+        text_to_speak = "I'm in the process of searching for information related to the topic you provided. I'll respond as soon as I have a comprehensive answer."
+    elif (text_num == 2):
+        text_to_speak = "Your topic has been received and I'm in the process of researching and analyzing it. I'll provide you with a response as soon as possible."
         
-        text_to_speech_publisher.publish_text(text_to_speak)
+    text_to_speech_publisher.publish_text(text_to_speak)
+        
+    # convert the audio data to an AudioSegment object
+    audio_data = np.frombuffer(data_buffer, dtype=np.int16)
+    audio_segment = AudioSegment(audio_data.tobytes(), frame_rate=RATE, sample_width=audio_data.itemsize, channels=CHANNELS)
+    filename = os.path.expanduser("~/op2_tmp/recordings/topic_recording.mp3")
+    audio_segment.export(filename, format="mp3")
 
-         # convert the audio data to an AudioSegment object
-        audio_data = np.frombuffer(data_buffer, dtype=np.int16)
-        audio_segment = AudioSegment(audio_data.tobytes(), frame_rate=RATE, sample_width=audio_data.itemsize, channels=CHANNELS)
-        filename = os.path.expanduser(f"~/op2_tmp/recordings/topic_recording.mp3")
-        audio_segment.export(filename, format="mp3")
 
-        # Initialize a recognizer instance
-        r = sr.Recognizer()
+    sound = AudioSegment.from_mp3(filename)
+    filename = os.path.expanduser("~/op2_tmp/recordings/topic_recording.wav")
+    sound.export(filename, format="wav")
 
-        # Load the audio file
-        audio_file = sr.AudioFile(filename)
-        with audio_file as source:
-            audio = r.record(source)
+    # Initialize a recognizer instance
+    r = sr.Recognizer()
 
-        # Transcribe the audio using Google's Speech Recognition API
-        topic = r.recognize_google(audio)
+    # Load the audio file
+    audio_file = sr.AudioFile(filename)
+    with audio_file as source:
+        audio = r.record(source)
 
-        result = wikipedia.summary(topic, sentences = 3)
+    # Transcribe the audio using Google's Speech Recognition API
+    
+    topic = r.recognize_google(audio)
 
-        text_to_speech_publisher.publish_text(result)
+
+    result = wikipedia.summary(topic, sentences = 3)
+
+    text_to_speech_publisher.publish_text(result)
 

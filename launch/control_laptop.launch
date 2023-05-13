@@ -2,5 +2,5 @@
 <launch>
   <node name="input_handler" pkg="robot_personal_assistant_op2" type="input_handler.py" output="screen"/>
   <node name="audio_reciever_speech_recognizer" pkg="robot_personal_assistant_op2" type="audio_reciever_speech_recognizer.py" output="screen"/>
-  <node name="bad_posture_detector.py" pkg="robot_personal_assistant_op2" type="bad_posture_detector.py" output="screen"/>
+  <node name="bad_posture_detector" pkg="robot_personal_assistant_op2" type="bad_posture_detector.py" output="screen"/>
 </launch>

@@ -32,9 +32,7 @@ def init():
 
 def record():
 
-    # Set up a socket to receive audio data
-    HOST = ''  # Listen on all available interfaces
-    PORT = 5001  # Use a free port number
+    
     
 
     # say "please speak out your note" or "please start talking"
@@ -47,7 +45,9 @@ def record():
         text_to_speak = "Please start talking!"
     
     text_to_speech_publisher.publish_text(text_to_speak)
-
+    # Set up a socket to receive audio data
+    HOST = ''  # Listen on all available interfaces
+    PORT = 5001  # Use a free port number
     CHANNELS = 1
     RATE = 44100
     CHUNK = 1024

@@ -288,7 +288,7 @@ def process_state(state):
     print(q_table)
     #state = random.randint(1,7)
     bad_posture_time = None
-    '''
+    
     def callback(data):
         nonlocal bad_posture_time
         # convert the recieved image into suitable format using CvBridge
@@ -303,7 +303,7 @@ def process_state(state):
                     break
                 else:
                     break
-    '''
+    
     print_state(state)
 
 
