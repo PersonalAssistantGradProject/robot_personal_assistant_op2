@@ -16,7 +16,6 @@ def check_words(list_of_words):
         nonlocal bad_posture_time
         # convert the recieved image into suitable format using CvBridge
         bad_posture_time = data.data
-        
 
     if (list_of_words[0] == "darwin"):
         rospy.Subscriber('/bad_posture_time', Int32, callback1)
@@ -34,7 +33,6 @@ def check_words(list_of_words):
 
     # define subscriber on ROS topic '/webcam' with Image data 
     rospy.Subscriber('/speech_recognition_output', String, callback)
-
     pain_type_found = ""
     pain_types = ["back","neck","leg","foot","feet","knee","arm","wrist","hand","shoulder"]
     while not rospy.is_shutdown():

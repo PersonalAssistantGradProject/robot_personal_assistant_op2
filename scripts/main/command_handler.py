@@ -10,107 +10,130 @@ import time
 import pain_handler # pain_handler.py
 import word_finder # word_finder.py
 import text_to_speech_publisher # text_to_speech_publisher.py
+import record_note # record_note.py
+
+
+def handle_pain(pain_type):
+
+    state = 0
+    if (pain_type == "neck"):
+        state = 2
+    elif (pain_type == "back"):
+        state = 4
+    elif (pain_type == "leg" or pain_type == "knee" or pain_type == "foot" or pain_type == "feet"):
+        state = 5
+    elif (pain_type == "arm" or pain_type == "wrist" or pain_type == "arm"):
+        state = 6
+    elif (pain_type == "shoulder"):
+        state = 7
+    else:
+        output_text = "I'm sorry to hear about the pain you're experiencing. . . "
+            
+        output_text += "I would strongly recommend seeking medical attention if the symptoms persist. . . "
+            
+        output_text += "A visit to a doctor may help determine the cause of the pain and lead to proper treatment. . ."
+        text_to_speech_publisher.publish_text(output_text)
+    if (state != 0):
+        pain_handler.process_state(state)
+
+    return    
+
+
+def handle_joke():
+
+    # choose random number
+    joke_number = random.randint(0, 6)
+
+    if (joke_number == 0):
+        joke =  "How do you open a banana? With a mon-key. hahaha."
+
+    elif (joke_number == 1):
+        joke =  "What do you call a bee that can't make up its mind? A Maybe. hahaha."
+    
+    elif (joke_number == 2):
+        joke =  "Why did the bicycle fall over? Because it was two tired! hahaha."
+    
+    elif (joke_number == 3):
+        joke =  "Why did the computer get cold? Because it left its Windows open! hahaha."
+
+    elif (joke_number == 4):
+        joke =  "Knock knock. Who's there? Olive. Olive who? Olive YOU!"
+
+    elif (joke_number == 5):
+        joke =  "Patient said: Doctor, I have a pain in my eye whenever I drink tea. " \
+                "Doctor replied: Take the spoon out of the mug before you drink."
+        
+    elif (joke_number == 6):
+        joke =  "The professor looked at the students and told them that you are the lamps of the future. " \
+                "The student looked at his colleague who found him in the seventh sleep, and the student" \
+                "said: Professor, the lamp next to me has burned out."
+    
+    # send the joke to the robot to say it
+    text_to_speech_publisher.publish_text(joke)
+    return
+    
+def handle_record_note(found_word):
+
+    if (found_word == "play"):
+        record_note.playback()
+    else:
+        record_note.record()
+    return
+
+    
+
+
+
+
 
 
 
 
 def command_handler():
 
+    
+    # global list of words
+    list_of_words =   ["pain","hurt","backache"] \
+                    + ["joke","funny"] \
+                    + ["play","note","record"] \
+                    + ["time","date"] \
+                    + ["search", "google","look"]
 
-    list_of_words = ["pain","hurt","backache"] + ["joke","funny"] + ["note"] + ["time","date"] + ["search", "google","look"]
     
     found_word, pain_type = word_finder.check_words(list_of_words)
+
     print("found_word =", found_word)
     print ("pain_type =", pain_type)
+
+
+
+    # handle pain
     if (found_word == "pain" or found_word == "hurt" or found_word == "backache"):
-        # check pain type
-        state = 0
-        if (pain_type == "neck"):
-            state = 2
-        elif (pain_type == "back"):
-            state = 4
-        elif (pain_type == "leg" or pain_type == "knee" or pain_type == "foot" or pain_type == "feet"):
-            state = 5
-        elif (pain_type == "arm" or pain_type == "wrist" or pain_type == "arm"):
-            state = 6
-        elif (pain_type == "shoulder"):
-            state = 7
-        else:
-            output_text = "I'm sorry to hear about the pain you're experiencing. . . "
-            
-            output_text += "I would strongly recommend seeking medical attention if the symptoms persist. . . "
-            
-            output_text += "A visit to a doctor may help determine the cause of the pain and lead to proper treatment. . ."
-            text_to_speech_publisher.publish_text(output_text)
-        if (state != 0):
-            pain_handler.process_state(state)
-        #print(state)
+        handle_pain(pain_type)
         return
 
 
-    time.sleep(100)
-
-    # handle pain
-    if (transcript.find("pain") != -1 or transcript.find("hurt") != -1 or transcript.find("backache") != -1 ):
-        state = 0
-        if (transcript.find("neck") != -1):
-            state = 2
-        elif (transcript.find("back") != -1):
-            state = 4 
-        elif (transcript.find("leg") != -1 or transcript.find("knee") != -1 or transcript.find("foot") != -1 or transcript.find("feet") != -1):
-            state = 5
-        elif (transcript.find("arm") != -1 or transcript.find("wrist") != -1 or transcript.find("hand") != -1 ):
-            state = 6
-        elif (transcript.find("shoulder") != -1):
-            state = 7
-        else:
-            output_text = "It would be a great idea to go see a doctor if the pain you described doesn't go away."
-        if(state != 0):
-            pain_handler.process_state(state)
 
 
-
-
-    # tell a joke
-    elif (transcript.find("joke") != -1):
-
-        joke_num = random.randint(0, 1)
-        if (joke_num == 0):
-            output_text = "Why don\'t scientists trust atoms? Because they make up everything. HAHAHAHAHAHAHA" 
-            #speak_text(output_text,7)
-
-        elif (joke_num == 1):
-            output_text = "What did the policeman say to his hungry stomach? Freeze. You\'re under a vest. HAHAHAHAHAHAHA"
-            #speak_text(output_text,8)
-
+    # handle joke
+    elif (found_word == "joke" or found_word == "funny"):
+        handle_joke()
+        return
         
 
 
 
-    # take a note
-    elif (transcript.find("note") != -1):
+    # take a note/record
+    elif (found_word == "note" or found_word == "record" or found_word == "play"):
+        handle_record_note(found_word)
+        return
+
+    print("got stuck")
+    return
 
 
-        # say: Please speak out your note!
-        transcript = listen("Please speak out your note!")
-
-
-
-
-
-        
-            
-
-
-        # Open file in write mode
-        with open("example.txt", "w") as f:
-                # Write string to file
-                f.write(transcript)
-                output_text = "Your note was saved as a txt file!"
-                speak_text(output_text,4)
-
-
-
+    
+    '''
     elif (transcript.find("time") != -1 or transcript.find("date") != -1):
 
     
@@ -227,4 +250,4 @@ def command_handler():
     print(answer_box) """
 
 
-    return output_text
+    return output_text'''
