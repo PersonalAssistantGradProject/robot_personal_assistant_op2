@@ -27,6 +27,7 @@ import rospy
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
 import os
+import random
 
 
 # The "load_faces" function loads the images of the faces of the three
@@ -135,7 +136,13 @@ def security_check():
 
     omar_image,mohammad_image,ahmad_image = load_faces()
     print("faces have been loaded!")
-    welcome_message = "Hello"
+    text_num = random.randint(0, 1)
+    if (text_num == 0):
+        welcome_message = "Hello"
+    elif (text_num == 1):
+        welcome_message = "Welcome"
+    
+    
     number_of_auth_users = 0
     while True:
         auth_results = recongize_faces(omar_image, mohammad_image, ahmad_image)
@@ -157,6 +164,9 @@ def security_check():
             number_of_auth_users +=1
 
         if (number_of_auth_users > 0):
+            random_number = random.random()
+            if (random_number < 0.25):
+                welcome_message+= ". Its good to see you again"
             welcome_message+= "."
             return welcome_message
     

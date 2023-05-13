@@ -12,7 +12,7 @@ def init():
 
 
 
-def publish_text(text):
+def publish_text(text,wait = True):
     global text_publisher
     rate = rospy.Rate(10)
     print("Robot said:", text)
@@ -27,7 +27,7 @@ def publish_text(text):
     rospy.Subscriber('/finished_talking', String, callback)
 
     while not rospy.is_shutdown():
-        if finished is not None:
+        if (finished is not None or not wait ):
             return
 
 

@@ -8,7 +8,7 @@ from pydub.playback import play
 import os
 import text_to_speech_publisher # text_to_speech_publisher.py
 import word_finder # word_finder.py
-
+import random
 
 
 
@@ -35,16 +35,22 @@ def record():
     
 
     # say "please speak out your note" or "please start talking"
-    text_to_speak = "please start talking"
+    text_num = random.randint(0, 2)
+    if (text_num == 0):
+        text_to_speak = "Please speak out, I will start recording your voice now!"
+    elif (text_num == 1):
+        text_to_speak = "I'm ready to record your voice, please start talking!"
+    elif (text_num == 2):
+        text_to_speak = "Please start talking!"
+    
     text_to_speech_publisher.publish_text(text_to_speak)
 
     CHANNELS = 1
     RATE = 44100
     CHUNK = 1024
     data_buffer = b''
-    INITIAL_THRESHOLD = 0
-    DECAY_RATE = 0.96
-    threshold = INITIAL_THRESHOLD
+
+    threshold = 1000
     count = 0 
     note_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     
@@ -55,7 +61,6 @@ def record():
     conn, addr = note_socket.accept()
     print(f"Connected by {addr}")
 
-    #time.sleep(1)
     while True:
         data = conn.recv(CHUNK)
         if not data:
@@ -66,8 +71,9 @@ def record():
 
         sample = audioop.tomono(data, 2, 1, 0)  # convert stereo to mono
         energy = audioop.rms(sample, 2)  # calculate RMS energy
-        rms = np.sqrt(np.mean(np.square(np.frombuffer(data, dtype=np.int16))))
-        threshold = max(threshold * DECAY_RATE, 6 * rms)
+        #rms = np.sqrt(np.mean(np.square(np.frombuffer(data, dtype=np.int16))))
+        #threshold = max(threshold * DECAY_RATE, 6 * rms)
+        
         if energy < threshold:
             count +=1
         elif(count > 0):
@@ -79,9 +85,14 @@ def record():
 
     
 
+    text_num = random.randint(0, 2)
+    if (text_num == 0):
+        text_to_speak = "Done! I am saving your audio at the moment!"
+    elif (text_num == 1):
+        text_to_speak = "All set! Saving your audio now."
+    elif (text_num == 2):
+        text_to_speak = "Great! I have saved your audio recording. Let me know when you want to hear it!"
 
-    # say "i will save your record right now"
-    text_to_speak = "Done! I am saving your audio at the moment!"
     text_to_speech_publisher.publish_text(text_to_speak)
 
 
@@ -103,16 +114,29 @@ def playback():
     global record_count
 
     if (record_count == 0):
-        text_to_speak = "You don't have any records to playback."
+        text_num = random.randint(0, 2)
+        if (text_num == 0):
+            text_to_speak = "You don't have any records to playback."
+        elif (text_num == 1):
+            text_to_speak = "Unfortunately, there are no records for playback."
+        elif (text_num == 2):
+            text_to_speak = "There are currently no records that can be played back."
         text_to_speech_publisher.publish_text(text_to_speak)
         return
     
-    text_to_speak = f"Which record you want me to play? you have {record_count} records saved."
+
+    text_num = random.randint(0, 2)
+    if (text_num == 0):
+        text_to_speak = f"Which recording would you like me to play? You have {record_count} recordings saved."
+    elif (text_num == 1):
+        text_to_speak = f"You have {record_count} recordings that I can play. Which one do you want to hear?"
+    elif (text_num == 2):
+        text_to_speak = f"Let me know which of your {record_count} saved recordings you would like me to play."
     text_to_speech_publisher.publish_text(text_to_speak)
     time.sleep(1)
 
     list_of_words = ["one","1","two","2","three","3","four","4","five","5","six","6","seven","7","eight","8","nine","9"]
-    list_of_words = list_of_words[:2* record_count]
+    list_of_words = list_of_words[:2 * record_count]
     print(list_of_words)
     found_word, pain_type = word_finder.check_words(list_of_words)
     print("found_word =", found_word)
@@ -138,7 +162,13 @@ def playback():
     
 
     filename = os.path.expanduser(f"~/op2_tmp/recordings/recording{record_num}.mp3")
-    text_to_speak = f"I will play recording {record_num} now."
+    text_num = random.randint(0, 2)
+    if(text_num == 0):
+        text_to_speak = f"Playing recording {record_num} as requested."
+    elif(text_num == 1):
+        text_to_speak = f"I will play recording {record_num} now!"
+    elif(text_num == 2):
+        text_to_speak = f"Your selected recording, number {record_num}, will play now."
     text_to_speech_publisher.publish_text(text_to_speak)
 
     audio = AudioSegment.from_file(filename, format="mp3")

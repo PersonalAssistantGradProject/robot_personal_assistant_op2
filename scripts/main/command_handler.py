@@ -5,12 +5,14 @@
 import speech_recognition as sr             
 import random                                    
 from datetime import datetime
-import wolframalpha
+
 import time
 import pain_handler # pain_handler.py
 import word_finder # word_finder.py
 import text_to_speech_publisher # text_to_speech_publisher.py
 import record_note # record_note.py
+import search_web # search_web.py
+import search_wikipedia # search_wikipedia,py
 
 
 def handle_pain(pain_type):
@@ -45,23 +47,23 @@ def handle_joke():
     joke_number = random.randint(0, 6)
 
     if (joke_number == 0):
-        joke =  "How do you open a banana? With a mon-key. hahaha."
+        joke =  "How do you open a banana? With a mon-key. hahahaha."
 
     elif (joke_number == 1):
-        joke =  "What do you call a bee that can't make up its mind? A Maybe. hahaha."
+        joke =  "What do you call a bee that can't make up its mind? A Maybe. hahahaha."
     
     elif (joke_number == 2):
-        joke =  "Why did the bicycle fall over? Because it was two tired! hahaha."
+        joke =  "Why did the bicycle fall over? Because it was two tired! hahahaha."
     
     elif (joke_number == 3):
-        joke =  "Why did the computer get cold? Because it left its Windows open! hahaha."
+        joke =  "Why did the computer get cold? Because it left its Windows open! hahahaha."
 
     elif (joke_number == 4):
         joke =  "Knock knock. Who's there? Olive. Olive who? Olive YOU!"
 
     elif (joke_number == 5):
         joke =  "Patient said: Doctor, I have a pain in my eye whenever I drink tea. " \
-                "Doctor replied: Take the spoon out of the mug before you drink."
+                "Doctor replied: Take the spoon out of the mug before you drink. hahahaha."
         
     elif (joke_number == 6):
         joke =  "The professor looked at the students and told them that you are the lamps of the future. " \
@@ -72,6 +74,7 @@ def handle_joke():
     text_to_speech_publisher.publish_text(joke)
     return
     
+
 def handle_record_note(found_word):
 
     if (found_word == "play"):
@@ -80,70 +83,47 @@ def handle_record_note(found_word):
         record_note.record()
     return
 
-    
 
-
-
-
-
-
-
-
-def command_handler():
-
-    
-    # global list of words
-    list_of_words =   ["pain","hurt","backache"] \
-                    + ["joke","funny"] \
-                    + ["play","note","record"] \
-                    + ["time","date"] \
-                    + ["search", "google","look"]
-
-    
-    found_word, pain_type = word_finder.check_words(list_of_words)
-
-    print("found_word =", found_word)
-    print ("pain_type =", pain_type)
-
-
-
-    # handle pain
-    if (found_word == "pain" or found_word == "hurt" or found_word == "backache"):
-        handle_pain(pain_type)
-        return
-
-
-
-
-    # handle joke
-    elif (found_word == "joke" or found_word == "funny"):
-        handle_joke()
-        return
-        
-
-
-
-    # take a note/record
-    elif (found_word == "note" or found_word == "record" or found_word == "play"):
-        handle_record_note(found_word)
-        return
-
-    print("got stuck")
+def handle_introduce(found_word):
+    if (found_word == "what can you do"):
+        text_to_speak = "I am a personal assistant designed to accompany you while you work or study at your desk. \
+                        I offer a wide range of services, including web searching, voice note taking, and playback, as well \
+                        as time and date information. If you are experiencing any discomfort or pain in your back, shoulders, \
+                        arms, legs, or neck, I can provide you with medical advice. Additionally, I can provide you with \
+                        summaries of various topics from Wikipedia, tell you a joke if you need a mood boost, and provide \
+                        you with current weather information."
+        text_to_speech_publisher.publish_text(text_to_speak)
+    else:
+        text_to_speak = "Hello, my name is Darwin OP2, but you can call me Darwin. I am a fully autonomous humanoid robot \
+                        designed to be your personal assistant while you work or study at your desk. I provide a wide range \
+                        of services such as web searching, voice note taking, and playback, as well as time and date information. \
+                        In case you experience discomfort or pain in your back, shoulders, arms, legs, or neck, \
+                        I can offer you medical advice. Moreover, I can provide you with summaries of various topics from Wikipedia, \
+                        crack a joke to cheer you up, and keep you updated on the current weather."
+        text_to_speech_publisher.publish_text(text_to_speak)
     return
 
 
-    
-    '''
-    elif (transcript.find("time") != -1 or transcript.find("date") != -1):
+def handle_time_date(found_word):
 
-    
-        # datetime object containing current date and time
-        now = datetime.now()
-        
-        print("now =", now)
+    now = datetime.now()
+    if (found_word == "time"):
 
-        # dd/mm/YY H:M:S
-        
+        hour = int(now.strftime("%H"))
+
+        if (hour < 12):
+            ampm = "A.M."
+        elif (hour == 12):
+            ampm = "P.M."
+        else:
+            hour = hour - 12
+            ampm = "P.M."
+
+        hour = str(hour)
+        text_to_speak = now.strftime(" Time now is " + hour + ":%M " + ampm)
+
+    else:
+
         month = now.strftime("%m")
         if (month == "01"):
             month = "January"
@@ -170,33 +150,79 @@ def command_handler():
         elif (month == "12"):
             month = "December"
 
-
-        hour = int(now.strftime("%H"))
-
-        if (hour < 12):
-            ampm = "A.M."
-        elif (hour == 12):
-            ampm = "P.M."
-        else:
-            hour = hour - 12
-            ampm = "P.M."
-
-        hour = str(hour)
+        text_to_speak = now.strftime("today's date is %d " + month + " %Y.")
+    text_to_speech_publisher.publish_text(text_to_speak)
+    return
 
 
 
-        if (transcript.find("date") != -1):
-            output_text = now.strftime("today's date is %d " + month + " %Y.")
-            print(output_text)
-            speak_text(output_text,3)
-
-        if (transcript.find("time") != -1):
-            output_text = now.strftime(" Time now is " + hour + ":%M " + ampm)
-            print(output_text)
-            speak_text(output_text,3)
 
 
 
+def command_handler():
+
+    
+    # global list of words
+    list_of_words =   ["pain","hurt","backache"] \
+                    + ["joke","funny"] \
+                    + ["play","note","record"] \
+                    + ["time","date"] \
+                    + ["search", "google"] \
+                    + ["what can you do", "who are you", "introduce"] \
+                    + ["wikipedia"]
+
+    
+    found_word, pain_type = word_finder.check_words(list_of_words)
+
+    print("found_word =", found_word)
+    print ("pain_type =", pain_type)
+
+
+
+    # handle pain
+    if (found_word == "pain" or found_word == "hurt" or found_word == "backache"):
+        handle_pain(pain_type)
+        return
+
+
+    # handle joke
+    elif (found_word == "joke" or found_word == "funny"):
+        handle_joke()
+        return
+        
+
+    # take a note/record
+    elif (found_word == "note" or found_word == "record" or found_word == "play"):
+        handle_record_note(found_word)
+        return
+
+
+    elif (found_word == "what can you do" or  found_word == "who are you" or found_word =="introduce"):
+        handle_introduce(found_word)
+        return
+    
+
+    elif (found_word == "date" or  found_word == "time"):
+        handle_time_date(found_word)
+        return
+
+
+    elif (found_word == "search" or  found_word == "google"):
+        search_web.handle_search()
+        return
+    
+
+    elif (found_word == "wikipedia"):
+          search_wikipedia.handle_wikipedia()
+          return
+
+
+    print("got stuck")
+    return
+
+    '''
+
+        
     elif (transcript.find("search") != -1):
 
         print("Say your question!")
@@ -230,24 +256,8 @@ def command_handler():
             print(output_text)
             speak_text(output_text,5)
   
-
+        '''
     
 
 
 
-
-    # google api
-    """ query = "who won world cup 2022"
-    url = f"https://www.google.com/search?q={query}"
-    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'}
-    response = requests.get(url, headers=headers)
-    print (response)
-
-
-    soup = BeautifulSoup(response.content, 'html.parser')
-    print (soup)
-    answer_box = soup.find('div', class_='Z0LcW')
-    print(answer_box) """
-
-
-    return output_text'''
