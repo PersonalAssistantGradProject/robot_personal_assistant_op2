@@ -1,0 +1,38 @@
+<?xml version="1.0" ?>
+<launch>
+
+    <!-- launch the op2_manager for the robotis op2 as the standard interface with the hardware -->
+    <include file="$(find op2_manager)/launch/op2_manager.launch"/>    
+
+
+    <!-- Run the action initialization node which is responsible to enabling the action module, this will make the robot respond for sent actions (page numbers) -->
+
+    <node pkg="timed_roslaunch" type="timed_roslaunch.sh"
+    args="10 robot_personal_assistant_op2 rostopic_init.launch"
+    name="timed_roslaunch_rostopic_init" output="screen" />
+    
+    <node pkg="timed_roslaunch" type="timed_roslaunch.sh"
+    args="10 robot_personal_assistant_op2 action_init.launch"
+    name="timed_roslaunch_action_init" output="screen" />
+
+    <node pkg="timed_roslaunch" type="timed_roslaunch.sh"
+    args="25 robot_personal_assistant_op2 audio_sender.launch"
+    name="timed_roslaunch_audio_sender" output="screen" />
+
+    <node pkg="timed_roslaunch" type="timed_roslaunch.sh"
+    args="25 robot_personal_assistant_op2 audio_note_player.launch"
+    name="timed_roslaunch_audio_note_player" output="screen" />
+
+    <node pkg="timed_roslaunch" type="timed_roslaunch.sh"
+    args="25 robot_personal_assistant_op2 image_publisher.launch"
+    name="timed_roslaunch_image_publisher" output="screen" />
+
+    <node pkg="timed_roslaunch" type="timed_roslaunch.sh"
+    args="25 robot_personal_assistant_op2 text_to_speech_subscriber.launch"
+    name="timed_roslaunch_text_to_speech_subscriber" output="screen" />
+
+    <node pkg="timed_roslaunch" type="timed_roslaunch.sh"
+    args="25 robot_personal_assistant_op2 record_audio_sender.launch"
+    name="timed_roslaunch_record_audio_sender" output="screen" />
+
+</launch>
