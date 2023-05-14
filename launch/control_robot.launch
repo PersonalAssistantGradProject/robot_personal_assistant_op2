@@ -16,8 +16,12 @@
     name="timed_roslaunch_action_init" output="screen" />
 
     <node pkg="timed_roslaunch" type="timed_roslaunch.sh"
-    args="25 robot_personal_assistant_op2 audio_sender.launch"
+    args="25 robot_personal_assistant_op2 audio_sender_0.launch"
     name="timed_roslaunch_audio_sender" output="screen" />
+    
+    <node pkg="timed_roslaunch" type="timed_roslaunch.sh"
+    args="25 robot_personal_assistant_op2 audio_sender_1.launch"
+    name="timed_roslaunch_record_audio_sender" output="screen" />
 
     <node pkg="timed_roslaunch" type="timed_roslaunch.sh"
     args="25 robot_personal_assistant_op2 audio_note_player.launch"
@@ -31,8 +35,6 @@
     args="25 robot_personal_assistant_op2 text_to_speech_subscriber.launch"
     name="timed_roslaunch_text_to_speech_subscriber" output="screen" />
 
-    <node pkg="timed_roslaunch" type="timed_roslaunch.sh"
-    args="25 robot_personal_assistant_op2 record_audio_sender.launch"
-    name="timed_roslaunch_record_audio_sender" output="screen" />
+    
 
 </launch>
