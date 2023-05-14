@@ -90,7 +90,10 @@ def handle_search():
         audio = r.record(source)
 
     # Transcribe the audio using Google's Speech Recognition API
-    question = r.recognize_google(audio)
+    try:
+        question = r.recognize_google(audio)
+    except:
+        question = ""
     print("question = ", question)
 
     # App id obtained by the above steps

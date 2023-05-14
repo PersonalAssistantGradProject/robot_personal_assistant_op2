@@ -93,7 +93,10 @@ def handle_wikipedia():
 
     # Transcribe the audio using Google's Speech Recognition API
     
-    topic = r.recognize_google(audio)
+    try:
+        topic = r.recognize_google(audio)
+    except:
+        topic = ""
 
 
     result = wikipedia.summary(topic, sentences = 3)

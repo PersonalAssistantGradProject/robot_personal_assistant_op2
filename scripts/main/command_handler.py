@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 
 
-# imported libraries
-import speech_recognition as sr             
+# imported libraries           
 import random                                    
 from datetime import datetime
 

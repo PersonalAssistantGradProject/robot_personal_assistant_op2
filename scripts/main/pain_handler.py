@@ -211,7 +211,7 @@ def perform_action(action):
         elif(text_num == 1):
             advice += "Maybe walking around for a few minutes could help reduce your discomfort. Would you like to try it?"
         elif(text_num == 2):
-            advice +="For this exercise, raise your elbows to shoulder height and then extend your arms out to the sides. Repeat ten times."
+            advice +="How about taking a short walk? It may help ease your pain."
        
         text_to_speech_publisher.publish_text(advice)
 
