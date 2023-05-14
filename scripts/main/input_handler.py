@@ -20,6 +20,7 @@ import text_to_speech_publisher # text_to_speech_publisher.py
 import word_finder # word_finder.py
 import action_sender # action_sender.py
 import record_note # record_note.py
+import time
 
 
 
@@ -43,15 +44,16 @@ if __name__ == '__main__' :
     text_to_speech_publisher.init()
     action_sender.init()
     record_note.init()
+    word_finder.init()
     rospy.init_node('input_handler', anonymous=True)
 
 
     
     # check for authentic users
-    welcome_message = face_recognizer.security_check()
-    #time.sleep(3)
-    action_sender.publish_action(100)
-    text_to_speech_publisher.publish_text(welcome_message)    
+    #welcome_message = face_recognizer.security_check()
+    time.sleep(3)
+    #action_sender.publish_action(100)
+    #text_to_speech_publisher.publish_text(welcome_message)    
 
     while True:
 
@@ -88,5 +90,8 @@ if __name__ == '__main__' :
 
         text_to_speech_publisher.publish_text(text_to_speak)  
 
+
+
+        
         command_handler.command_handler()
         

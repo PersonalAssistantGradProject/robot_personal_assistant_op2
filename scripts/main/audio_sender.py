@@ -16,7 +16,7 @@ audio = pyaudio.PyAudio()
 
 # get the IP address of the receiving PC
 HOST = "192.168.1.20" # change to the IP address of the receiving PC
-PORT = 5001
+PORT = 5000
 
 
 
@@ -25,9 +25,7 @@ PORT = 5001
 while True:
     audio_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     # start recording audio from the microphone
-    stream = audio.open(format=FORMAT, channels=CHANNELS,
-                        rate=RATE, input=True,
-                        frames_per_buffer=CHUNK)
+    
     # connect to the receiving PC
     print(f"waiting to connect to {HOST}")
     while True:
@@ -40,7 +38,9 @@ while True:
 
     print(f"conneted to {HOST}:{PORT}...")
 
-    
+    stream = audio.open(format=FORMAT, channels=CHANNELS,
+                        rate=RATE, input=True,
+                        frames_per_buffer=CHUNK)
 
     # send the audio data over the network
     while True:

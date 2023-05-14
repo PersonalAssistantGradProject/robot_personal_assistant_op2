@@ -47,7 +47,7 @@ def record():
     text_to_speech_publisher.publish_text(text_to_speak)
     # Set up a socket to receive audio data
     HOST = ''  # Listen on all available interfaces
-    PORT = 5001  # Use a free port number
+    PORT = 5000  # Use a free port number
     CHANNELS = 1
     RATE = 44100
     CHUNK = 1024

@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<launch>
+
+
+    <node pkg="robot_personal_assistant_op2" type="audio_sender.py" name="audio_sender" output="screen"/>
+
+
+</launch>

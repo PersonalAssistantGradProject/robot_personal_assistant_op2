@@ -4,8 +4,20 @@ import rospy
 from std_msgs.msg import String,Int32
 import text_to_speech_publisher # text_to_speech_publisher.py
 
+def init():
+    global start_publisher
+    global finished_publisher
+    start_publisher = rospy.Publisher('/start_recognition',String,queue_size=10)
+    finished_publisher = rospy.Publisher('/finish_recognition',String,queue_size=10)
+
+
 
 def check_words(list_of_words):
+
+    global start_publisher
+    global finished_publisher
+    start_publisher.publish("start")
+    rospy.loginfo("start")
     # subscribe to the rostopic
 
     rate = rospy.Rate(1)# 1Hz
@@ -54,8 +66,11 @@ def check_words(list_of_words):
                         for pain_type in pain_types:
                             if pain_type in transcript_lower + past_transcript.lower() + past_past_transcript.lower():
                                 pain_type_found = pain_type
+                                finished_publisher.publish("finished")
                                 return word, pain_type_found
-                    
+                            
+                    finished_publisher.publish("finished")
+                    rospy.loginfo("finished")
                     return word, pain_type_found
             past_past_transcript = past_transcript
             past_transcript = transcript
