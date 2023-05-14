@@ -5,7 +5,7 @@
 
 
 This Python file creates a ROS node called "text_to_speech" which subscribes
-to the "/text_to_speech" ROS topic.
+to the "/tts" ROS topic.
 
 Whenever a string message is received on this topic, the node utilizes gTTS
 to convert the text to speech.

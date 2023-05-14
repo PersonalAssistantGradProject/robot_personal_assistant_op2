@@ -4,8 +4,6 @@
 # imported libraries           
 import random                                    
 from datetime import datetime
-
-import time
 import pain_handler # pain_handler.py
 import word_finder # word_finder.py
 import text_to_speech_publisher # text_to_speech_publisher.py

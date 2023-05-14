@@ -12,15 +12,15 @@ imports and utilizes functions from other Python files to accomplish its tasks.
 # imported libraries
                       
 import rospy
+import random
+import datetime
 import face_recognizer # face_recognizer.py
 import command_handler # command_handler.py
 import text_to_speech_publisher # text_to_speech_publisher.py
 import word_finder # word_finder.py
 import action_sender # action_sender.py
 import record_note # record_note.py
-import time
-import random
-import datetime
+
 
 
 # action 101 = 14s

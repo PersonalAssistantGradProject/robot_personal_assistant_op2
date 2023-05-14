@@ -12,8 +12,6 @@ CHUNK = 1024
 # initialize PyAudio
 audio = pyaudio.PyAudio()
 
-# create a socket object
-
 
 
 # get the IP address of the receiving PC
@@ -22,14 +20,19 @@ PORT = 5001
 
 
 
-# connect to the receiving PC
-print(f"waiting to connect to {HOST}")
+
 
 while True:
-    socket1 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    audio_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    # start recording audio from the microphone
+    stream = audio.open(format=FORMAT, channels=CHANNELS,
+                        rate=RATE, input=True,
+                        frames_per_buffer=CHUNK)
+    # connect to the receiving PC
+    print(f"waiting to connect to {HOST}")
     while True:
         try:
-            socket1.connect((HOST, PORT))
+            audio_socket.connect((HOST, PORT))
                 
         except:
             continue
@@ -37,17 +40,13 @@ while True:
 
     print(f"conneted to {HOST}:{PORT}...")
 
-    # start recording audio from the microphone
-    stream = audio.open(format=FORMAT, channels=CHANNELS,
-                        rate=RATE, input=True,
-                        frames_per_buffer=CHUNK)
+    
 
     # send the audio data over the network
     while True:
         data = stream.read(CHUNK)
-        print(len(data))
         try:
-            socket1.sendall(data)
+            audio_socket.sendall(data)
         except:
             break
 
@@ -55,5 +54,5 @@ while True:
     stream.stop_stream()
     stream.close()
     #audio.terminate()
-    socket1.close()
+    audio_socket.close()
 
