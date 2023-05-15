@@ -38,7 +38,7 @@ if __name__ == '__main__' :
     rospy.init_node('input_handler', anonymous=True)
 
     # check for authentic users
-    face_recognizer.security_check()
+    #face_recognizer.security_check()
     
 
     

@@ -23,13 +23,32 @@ import rospy
 from std_msgs.msg import String
 import os
 from playsound import playsound
+import base64
+import tempfile
+
 
 
 
 # callback function called when string data is recieved on '/tts'
 def callback(data):
-    rospy.loginfo(data.data)
-    speak(data.data)
+    # Decode the base64-encoded audio data
+    audio_data = base64.b64decode(data.data)
+    
+    # Save the audio data to a temporary file
+    temp_file = tempfile.NamedTemporaryFile(delete=False)
+    temp_file.write(audio_data)
+    temp_file.close()
+    
+    # Play the audio file
+    playsound(temp_file.name)
+
+    global finished_talking_publisher
+    finished_talking_publisher.publish("finished!")
+    rospy.loginfo("finished!")
+    
+    # Remove the temporary file
+    os.remove(temp_file.name)
+
 
 
 
@@ -38,28 +57,7 @@ def callback(data):
 # It uses the gTTS library to convert the input text into speech.
 # 
 # The generated audio is saved as an mp3 file, and then played through the robot's speaker.
-#
 
-def speak(text):
-
-    
-    # create a gTTS object and specify language and voice
-    # this will generate the speech we want the robot to speak
-    print("generating audio")
-    tts = gTTS(text=text, lang='en', tld='com', slow=False) 
-    
-
-    mp3_file_path = os.path.expanduser("~/op2_tmp/recordings/text_to_speech.mp3")
-    # save the generated speech to an mp3 file
-    print("saving mp3 file")
-    tts.save(mp3_file_path)
-    
-    # play the mp3 file using playsound
-    print("loading mp3 file")
-    playsound(mp3_file_path)
-    global finished_talking_publisher
-    finished_talking_publisher.publish("finished!")
-    rospy.loginfo("finished!")
 
  
 
