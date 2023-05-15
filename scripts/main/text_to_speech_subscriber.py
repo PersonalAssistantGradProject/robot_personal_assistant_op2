@@ -22,7 +22,7 @@ from gtts import gTTS
 import rospy
 from std_msgs.msg import String
 import os
-import pygame
+from playsound import playsound
 
 
 
@@ -47,7 +47,7 @@ def speak(text):
     # this will generate the speech we want the robot to speak
     print("generating audio")
     tts = gTTS(text=text, lang='en', tld='com', slow=False) 
-
+    
 
     mp3_file_path = os.path.expanduser("~/op2_tmp/recordings/text_to_speech.mp3")
     # save the generated speech to an mp3 file
@@ -56,12 +56,7 @@ def speak(text):
     
     # play the mp3 file using playsound
     print("loading mp3 file")
-    pygame.init()
-    pygame.mixer.music.load(mp3_file_path)
-    pygame.mixer.music.play()
-    while pygame.mixer.music.get_pos() > -1:
-        pygame.time.Clock().tick(10)
-    pygame.quit()
+    playsound(mp3_file_path)
     global finished_talking_publisher
     finished_talking_publisher.publish("finished!")
     rospy.loginfo("finished!")

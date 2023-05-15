@@ -37,10 +37,8 @@ if __name__ == '__main__' :
     # initalize ROS node 'input_handler'
     rospy.init_node('input_handler', anonymous=True)
 
-
-
     # check for authentic users
-    #welcome_message = face_recognizer.security_check()
+    face_recognizer.security_check()
     
 
     
