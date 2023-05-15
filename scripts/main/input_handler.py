@@ -21,7 +21,7 @@ import word_finder # word_finder.py
 import action_sender # action_sender.py
 import record_note # record_note.py
 
-
+import time
 
 if __name__ == '__main__' :
 
@@ -40,11 +40,11 @@ if __name__ == '__main__' :
 
 
     # check for authentic users
-    welcome_message = face_recognizer.security_check()
-
+    #welcome_message = face_recognizer.security_check()
+    time.sleep(3)
     # welcome the user by standing up (action 100: inital position), and speak out welcome message
     action_sender.publish_action(100)
-    text_to_speech_publisher.publish_text(welcome_message)
+    #text_to_speech_publisher.publish_text(welcome_message)
 
     
 

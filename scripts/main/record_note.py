@@ -32,19 +32,6 @@ def init():
 
 def record():
 
-    
-    
-
-    # say "please speak out your note" or "please start talking"
-    text_num = random.randint(0, 2)
-    if (text_num == 0):
-        text_to_speak = "Please speak out, I will start recording your voice now!"
-    elif (text_num == 1):
-        text_to_speak = "I'm ready to record your voice, please start talking!"
-    elif (text_num == 2):
-        text_to_speak = "Please start talking!"
-    
-    text_to_speech_publisher.publish_text(text_to_speak)
     # Set up a socket to receive audio data
     HOST = ''  # Listen on all available interfaces
     PORT = 5000  # Use a free port number
@@ -53,12 +40,21 @@ def record():
     CHUNK = 1024
     data_buffer = b''
 
-    threshold = 1000
+    threshold = 6000
     count = 0 
     note_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     
 
     note_socket.bind((HOST, PORT))
+    
+
+
+    
+    text_to_speak = "I'm ready to record your voice, please start talking!"
+    text_to_speech_publisher.publish_text(text_to_speak)
+
+
+    time.sleep(4)
     note_socket.listen()
     print(f"Listening for audio data on {HOST}:{PORT}...")
     conn, addr = note_socket.accept()

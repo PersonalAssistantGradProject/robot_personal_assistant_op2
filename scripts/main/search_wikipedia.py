@@ -8,37 +8,35 @@ import os
 import speech_recognition as sr
 import wikipedia
 import text_to_speech_publisher # text_to_speech_publisher.py
-
+import time
 
 def handle_wikipedia():
 
-    text_num = random.randint(0,1)
-    if(text_num == 0):
-        text_to_speak = "Let me know which topic you're curious about and I'll do my best to provide you with an informative answer."
-    elif(text_num == 1):
-        text_to_speak = "Tell me the specific topic that you would like me to address?!"
-    text_to_speech_publisher.publish_text(text_to_speak)
-
-
 
     HOST = ''  # Listen on all available interfaces
-    PORT = 5001  # Use a free port number
+    PORT = 5000  # Use a free port number
     CHANNELS = 1
     RATE = 44100
     CHUNK = 1024
     data_buffer = b''
 
-    threshold = 1000
+    threshold = 6000
     count = 0 
     note_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     
 
     note_socket.bind((HOST, PORT))
+    
+    text_to_speak = "Tell me the specific topic that you would like me to address?!"
+    text_to_speech_publisher.publish_text(text_to_speak,wait =False)
+
+    time.sleep(4)
     note_socket.listen()
     print(f"Listening for audio data on {HOST}:{PORT}...")
     conn, addr = note_socket.accept()
     print(f"Connected by {addr}")
-    
+    #time.sleep(1)
+    print("started recording")
     while True:
         data = conn.recv(CHUNK)
         if not data:
@@ -49,6 +47,7 @@ def handle_wikipedia():
 
         sample = audioop.tomono(data, 2, 1, 0)  # convert stereo to mono
         energy = audioop.rms(sample, 2)  # calculate RMS energy
+        #print(energy)
         #rms = np.sqrt(np.mean(np.square(np.frombuffer(data, dtype=np.int16))))
         #threshold = max(threshold * DECAY_RATE, 6 * rms)
         
@@ -57,7 +56,7 @@ def handle_wikipedia():
         elif(count > 0):
             count -=10
 
-        if (count > 110):
+        if (count > 200):
             print("user has been quite for a while . exiting")
             break
 
@@ -96,9 +95,17 @@ def handle_wikipedia():
         topic = r.recognize_google(audio)
     except:
         topic = ""
+    
+    print("topic = ", topic)
+    answer = ""
 
-
-    result = wikipedia.summary(topic, sentences = 3)
-
-    text_to_speech_publisher.publish_text(result)
+    try:
+        answer = wikipedia.summary(topic, sentences = 2)
+    except:
+        text_num = random.randint(0, 1)
+        if (text_num == 0):
+            answer = "My apologies, but I was unable to find an answer to your question."
+        elif (text_num == 1):
+            answer = "Unfortunately, I was unable to locate an answer to your question."
+    text_to_speech_publisher.publish_text(answer)
 

@@ -13,28 +13,29 @@ import text_to_speech_publisher # text_to_speech_publisher.py
 
 def handle_search():
 
-    text_num = random.randint(0,1)
-    if(text_num == 0):
-        text_to_speak = "What would you like to ask?"
-    elif(text_num == 1):
-        text_to_speak = "Please speak out your question!"
-    text_to_speech_publisher.publish_text(text_to_speak)
-
 
 
     HOST = ''  # Listen on all available interfaces
-    PORT = 5001  # Use a free port number
+    PORT = 5000  # Use a free port number
     CHANNELS = 1
     RATE = 44100
     CHUNK = 1024
     data_buffer = b''
 
-    threshold = 1000
+    threshold = 6000
     count = 0 
     note_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    note_socket.bind((HOST, PORT))
+
+    text_to_speak = "What would you like me to search for?"
+    text_to_speech_publisher.publish_text(text_to_speak, wait = False)
+
+
+
+    
     
 
-    note_socket.bind((HOST, PORT))
+    time.sleep(3)
     note_socket.listen()
     print(f"Listening for audio data on {HOST}:{PORT}...")
     conn, addr = note_socket.accept()
@@ -105,12 +106,14 @@ def handle_search():
 
     # Stores the response from 
     # wolf ram alpha
-    result = client.query(question)
 
-    # Includes only text from the response
     try:
-        answer = next(result.results).text
-        
+        result = client.query(question)
+        try:
+            answer = next(result.results).text
+        except:
+            pass
+
     except:
         text_num = random.randint(0, 1)
         if (text_num == 0):
@@ -121,6 +124,4 @@ def handle_search():
     text_to_speech_publisher.publish_text(answer)
 
 
-
-    return
 

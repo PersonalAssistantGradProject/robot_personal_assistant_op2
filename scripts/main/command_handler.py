@@ -65,7 +65,7 @@ def handle_joke():
     elif (joke_number == 6):
         joke =  "The professor looked at the students and told them that you are the lamps of the future. " \
                 "The student looked at his colleague who found him in the seventh sleep, and the student" \
-                "said: Professor, the lamp next to me has burned out."
+                "said: Professor, the lamp next to me has burned out.hahahaha"
     
     # send the joke to the robot to say it
     text_to_speech_publisher.publish_text(joke)
@@ -153,9 +153,6 @@ def handle_time_date(found_word):
 
 
 
-
-
-
 def command_handler():
 
     
@@ -164,9 +161,10 @@ def command_handler():
                     + ["joke","funny"] \
                     + ["play","note","record"] \
                     + ["time","date"] \
+                    + ["wikipedia"] \
                     + ["search", "google"] \
-                    + ["what can you do", "who are you", "introduce"] \
-                    + ["wikipedia"]
+                    + ["what can you do", "who are you", "introduce"]
+                    
 
     
     found_word, pain_type = word_finder.check_words(list_of_words)
@@ -204,14 +202,17 @@ def command_handler():
         return
 
 
+    elif (found_word == "wikipedia"):
+        search_wikipedia.handle_wikipedia()
+        return
+    
+
     elif (found_word == "search" or  found_word == "google"):
         search_web.handle_search()
         return
     
 
-    elif (found_word == "wikipedia"):
-        search_wikipedia.handle_wikipedia()
-        return
+
 
 
     print("got stuck")
