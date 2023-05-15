@@ -21,7 +21,7 @@ def handle_wikipedia():
     data_buffer = b''
 
     threshold = 6000
-    count = 0 
+    count = -50
     note_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     
 
@@ -30,7 +30,7 @@ def handle_wikipedia():
     text_to_speak = "Tell me the specific topic that you would like me to address?!"
     text_to_speech_publisher.publish_text(text_to_speak,wait =False)
 
-    time.sleep(4)
+    time.sleep(3)
     note_socket.listen()
     print(f"Listening for audio data on {HOST}:{PORT}...")
     conn, addr = note_socket.accept()
@@ -56,7 +56,7 @@ def handle_wikipedia():
         elif(count > 0):
             count -=10
 
-        if (count > 200):
+        if (count > 250):
             print("user has been quite for a while . exiting")
             break
 

@@ -40,7 +40,8 @@ if __name__ == '__main__' :
     # check for authentic users
     #face_recognizer.security_check()
     
-
+    #time.sleep(2)
+    #action_sender.publish_action(100)
     
 
     while True:

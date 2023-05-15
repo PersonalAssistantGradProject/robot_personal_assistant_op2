@@ -22,10 +22,9 @@ from gtts import gTTS
 import rospy
 from std_msgs.msg import String
 import os
-from playsound import playsound
 import base64
 import tempfile
-
+import pygame
 
 
 
@@ -40,7 +39,13 @@ def callback(data):
     temp_file.close()
     
     # Play the audio file
-    playsound(temp_file.name)
+    pygame.mixer.music.load(temp_file.name)
+    pygame.mixer.music.play()
+    while pygame.mixer.music.get_busy():
+        pass
+
+
+
 
     global finished_talking_publisher
     finished_talking_publisher.publish("finished!")
@@ -70,6 +75,7 @@ def listener():
     # anonymous=True flag means that rospy will choose a unique
     # name for our 'listener' node so that multiple listeners can
     # run simultaneously.
+    pygame.init()
     rospy.init_node('text_to_speech', anonymous=True)
     rospy.Subscriber('/tts', String, callback)
 

@@ -23,7 +23,7 @@ def handle_search():
     data_buffer = b''
 
     threshold = 6000
-    count = 0 
+    count = -50 
     note_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     note_socket.bind((HOST, PORT))
 
@@ -35,12 +35,11 @@ def handle_search():
     
     
 
-    time.sleep(3)
+    time.sleep(1)
     note_socket.listen()
     print(f"Listening for audio data on {HOST}:{PORT}...")
     conn, addr = note_socket.accept()
     print(f"Connected by {addr}")
-    time.sleep(1)
     while True:
         data = conn.recv(CHUNK)
         if not data:
@@ -59,7 +58,7 @@ def handle_search():
         elif(count > 0):
             count -=10
 
-        if (count > 110):
+        if (count > 250):
             print("user has been quite for a while . exiting")
             break
 
@@ -109,10 +108,8 @@ def handle_search():
 
     try:
         result = client.query(question)
-        try:
-            answer = next(result.results).text
-        except:
-            pass
+        answer = next(result.results).text
+
 
     except:
         text_num = random.randint(0, 1)
