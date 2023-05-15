@@ -47,7 +47,12 @@ def check_words(list_of_words):
     # define subscriber on ROS topic '/webcam' with Image data 
     rospy.Subscriber('/speech_recognition_output', String, callback)
     pain_type_found = ""
-    pain_types = ["back","neck","leg","foot","feet","knee","arm","wrist","hand","shoulder"]
+    pain_types = ["back",
+                  "neck",
+                  "leg","foot","feet","knee",
+                  "arm","wrist","hand",
+                  "shoulder",
+                  "head"]
     while not rospy.is_shutdown():
 
 

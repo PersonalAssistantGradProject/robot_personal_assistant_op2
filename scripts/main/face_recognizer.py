@@ -28,6 +28,8 @@ from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
 import os
 import random
+import text_to_speech_publisher
+import action_sender
 
 
 # The "load_faces" function loads the images of the faces of the three
@@ -168,5 +170,8 @@ def security_check():
             if (random_number < 0.25):
                 welcome_message+= ". Its good to see you again"
             welcome_message+= "."
-            return welcome_message
+            
+            # welcome the user by standing up (action 100: inital position), and speak out welcome message
+            text_to_speech_publisher.publish_text(welcome_message)
+            action_sender.publish_action(100)
     

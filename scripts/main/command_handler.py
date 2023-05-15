@@ -15,9 +15,10 @@ import search_wikipedia # search_wikipedia,py
 def handle_pain(pain_type):
 
     state = 0
+    
     if (pain_type == "neck"):
         state = 2
-    elif (pain_type == "back"):
+    elif (pain_type == "back" or pain_type == "backache"):
         state = 4
     elif (pain_type == "leg" or pain_type == "knee" or pain_type == "foot" or pain_type == "feet"):
         state = 5
@@ -25,13 +26,23 @@ def handle_pain(pain_type):
         state = 6
     elif (pain_type == "shoulder"):
         state = 7
-    else:
-        output_text = "I'm sorry to hear about the pain you're experiencing. . . "
-            
-        output_text += "I would strongly recommend seeking medical attention if the symptoms persist. . . "
-            
-        output_text += "A visit to a doctor may help determine the cause of the pain and lead to proper treatment. . ."
+    elif (pain_type == "head" or pain_type == "headache"):
+        output_text= ("I'm sorry to hear that. Maybe you could rest in a quiet place. "
+                      "Find a calm and comfortable environment where you can lie down "
+                      "and relax. Dimming the lights or closing the curtains can help "
+                      "create a soothing atmosphere.")
+        
         text_to_speech_publisher.publish_text(output_text)
+
+    else:
+
+        output_text = ("I'm sorry to hear about your pain. If the symptoms continue, "
+                       "it's best to see a doctor. They can identify the cause of the "
+                       "pain and provide appropriate treatment.")
+        
+        text_to_speech_publisher.publish_text(output_text)
+
+        
     if (state != 0):
         pain_handler.process_state(state)
 
@@ -157,7 +168,7 @@ def command_handler():
 
     
     # global list of words
-    list_of_words =   ["pain","hurt","backache"] \
+    list_of_words =   ["pain","hurt","backache","headache"] \
                     + ["joke","funny"] \
                     + ["play","note","record"] \
                     + ["time","date"] \
@@ -175,7 +186,11 @@ def command_handler():
 
 
     # handle pain
-    if (found_word == "pain" or found_word == "hurt" or found_word == "backache"):
+    if (found_word == "pain" or found_word == "hurt" or found_word == "backache" or found_word == "headache"):
+        if (found_word == "backache"):
+            pain_type = found_word
+        elif (found_word == "headache"):
+            pain_type = found_word
         handle_pain(pain_type)
         return
 
