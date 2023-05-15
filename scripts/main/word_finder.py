@@ -2,6 +2,7 @@
 
 import rospy
 from std_msgs.msg import String,Int32
+import random
 import text_to_speech_publisher # text_to_speech_publisher.py
 
 def init():
@@ -80,7 +81,17 @@ def check_words(list_of_words):
             if (bad_posture_time > 10):
                     print("count =",count)
                     if (count == 0):
-                        advice = "I can see that you have bad posture, please fix it!"
+
+                        rand_text = random.randint(0, 2)
+                        if (rand_text == 0):
+                            advice = ("I can see your posture needs a little adjustment. Remember to ensure proper back "
+                                      "support and consider changing your position regularly.")
+                        elif (rand_text == 1):
+                            advice = ("I couldn't help but notice your posture. It might be helpful to adjust how you sit, "
+                                      "raise your shoulders, and ensure proper back support.")
+                        elif (rand_text == 2):
+                            advice = ("Hey, I noticed your posture needs attention. Try adjusting how you sit, raising your "
+                                      "shoulders, and changing positions every 30 minutes for better alignment.")
                         text_to_speech_publisher.publish_text(advice)
                         count = (count + 1) % 20
                     else:

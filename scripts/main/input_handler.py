@@ -20,19 +20,6 @@ import text_to_speech_publisher # text_to_speech_publisher.py
 import word_finder # word_finder.py
 import action_sender # action_sender.py
 import record_note # record_note.py
-import time
-
-
-
-# action 101 = 14s
-# action 102 = 14s
-# action 103 = 6s
-# action 104 = 11s
-# action 105 = 13s
-# action 106 = 20s
-# action 107 = 18s
- 
-
 
 
 
@@ -40,22 +27,30 @@ if __name__ == '__main__' :
 
     
 
-    # initalize ROS node 'input_handler'
+    # initalize for various functions
     text_to_speech_publisher.init()
     action_sender.init()
     record_note.init()
     word_finder.init()
+
+
+    # initalize ROS node 'input_handler'
     rospy.init_node('input_handler', anonymous=True)
 
 
-    
+
     # check for authentic users
     welcome_message = face_recognizer.security_check()
-    #time.sleep(3)
+
+    # welcome the user by standing up (action 100: inital position), and speak out welcome message
     action_sender.publish_action(100)
-    text_to_speech_publisher.publish_text(welcome_message)    
+    text_to_speech_publisher.publish_text(welcome_message)
+
+    
 
     while True:
+
+
 
 
         print("please say \"hey darwin\"")
