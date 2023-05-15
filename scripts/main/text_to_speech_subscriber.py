@@ -49,7 +49,7 @@ def speak(text):
     tts = gTTS(text=text, lang='en', tld='com', slow=False) 
 
 
-    mp3_file_path = os.path.expanduser("~/op2_tmp/speech.mp3")
+    mp3_file_path = os.path.expanduser("~/op2_tmp/recordings/text_to_speech.mp3")
     # save the generated speech to an mp3 file
     print("saving mp3 file")
     tts.save(mp3_file_path)

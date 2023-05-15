@@ -12,8 +12,8 @@
     name="timed_roslaunch_rostopic_init" output="screen" />
     
     <node pkg="timed_roslaunch" type="timed_roslaunch.sh"
-    args="10 robot_personal_assistant_op2 action_init.launch"
-    name="timed_roslaunch_action_init" output="screen" />
+    args="10 robot_personal_assistant_op2 action_initialize.launch"
+    name="timed_roslaunch_action_initialize" output="screen" />
 
     <node pkg="timed_roslaunch" type="timed_roslaunch.sh"
     args="25 robot_personal_assistant_op2 audio_sender.launch"

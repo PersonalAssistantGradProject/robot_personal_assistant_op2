@@ -50,10 +50,10 @@ if __name__ == '__main__' :
 
     
     # check for authentic users
-    #welcome_message = face_recognizer.security_check()
-    time.sleep(3)
-    #action_sender.publish_action(100)
-    #text_to_speech_publisher.publish_text(welcome_message)    
+    welcome_message = face_recognizer.security_check()
+    #time.sleep(3)
+    action_sender.publish_action(100)
+    text_to_speech_publisher.publish_text(welcome_message)    
 
     while True:
 

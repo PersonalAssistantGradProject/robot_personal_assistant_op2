@@ -9,6 +9,7 @@ from std_msgs.msg import Int32
 def init():
     global action_publisher
     action_publisher = rospy.Publisher('/robotis/action/page_num', Int32, queue_size=10)
+    return
 
 
 
