@@ -97,10 +97,10 @@ def handle_wikipedia():
         topic = ""
     
     print("topic = ", topic)
-    answer = ""
+    answer = "Here's a summery about the topic you provided: "
 
     try:
-        answer = wikipedia.summary(topic, sentences = 2)
+        answer += wikipedia.summary(topic, sentences = 2)
     except:
         text_num = random.randint(0, 1)
         if (text_num == 0):

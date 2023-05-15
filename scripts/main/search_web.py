@@ -105,10 +105,11 @@ def handle_search():
 
     # Stores the response from 
     # wolf ram alpha
-
+    answer = "The answer for your question is: "
     try:
         result = client.query(question)
-        answer = next(result.results).text
+        answer += next(result.results).text
+
 
 
     except:
