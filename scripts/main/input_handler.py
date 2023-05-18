@@ -40,7 +40,7 @@ if __name__ == '__main__' :
     # check for authentic users
     #face_recognizer.security_check()
     
-    #time.sleep(2)
+    time.sleep(2)
     #action_sender.publish_action(100)
     
 
@@ -50,7 +50,7 @@ if __name__ == '__main__' :
 
 
         print("please say \"hey darwin\"")
-        list_of_words = ["darwin","darling","darlin"]
+        list_of_words = ["darwin","darling","darlin", "godwin", "dad win"]
         word_finder.check_words(list_of_words)
         rand_text = random.randint(0, 4)
         if (rand_text == 0):
@@ -79,7 +79,7 @@ if __name__ == '__main__' :
             text_to_speak += "How may I help you today?"
 
 
-        text_to_speech_publisher.publish_text(text_to_speak)  
+        text_to_speech_publisher.publish_text(text_to_speak, wait = False)  
 
 
 

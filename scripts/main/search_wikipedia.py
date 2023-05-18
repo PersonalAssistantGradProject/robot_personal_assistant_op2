@@ -11,7 +11,7 @@ import text_to_speech_publisher # text_to_speech_publisher.py
 import time
 
 def handle_wikipedia():
-
+    time.sleep(1)
 
     HOST = ''  # Listen on all available interfaces
     PORT = 5000  # Use a free port number

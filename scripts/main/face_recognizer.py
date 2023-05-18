@@ -173,6 +173,6 @@ def security_check():
             
             # welcome the user by standing up (action 100: inital position), and speak out welcome message
             action_sender.publish_action(100)
-            text_to_speech_publisher.publish_text(welcome_message)
+            text_to_speech_publisher.publish_text(welcome_message, wait = False)
             return
     

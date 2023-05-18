@@ -12,7 +12,7 @@ import text_to_speech_publisher # text_to_speech_publisher.py
 
 
 def handle_search():
-
+    time.sleep(1)
 
 
     HOST = ''  # Listen on all available interfaces
