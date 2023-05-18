@@ -14,6 +14,8 @@ imports and utilizes functions from other Python files to accomplish its tasks.
 import rospy
 import random
 import datetime
+import os
+import time
 import face_recognizer # face_recognizer.py
 import command_handler # command_handler.py
 import text_to_speech_publisher # text_to_speech_publisher.py
@@ -21,7 +23,7 @@ import word_finder # word_finder.py
 import action_sender # action_sender.py
 import record_note # record_note.py
 
-import time
+
 
 if __name__ == '__main__' :
 
@@ -33,9 +35,10 @@ if __name__ == '__main__' :
     record_note.init()
     word_finder.init()
 
-
     # initalize ROS node 'input_handler'
     rospy.init_node('input_handler', anonymous=True)
+
+
     bypass = True
     if (not bypass):
         # check for authentic users
@@ -46,15 +49,17 @@ if __name__ == '__main__' :
     
     
     
-    
+    os.system('clear')
     while True:
 
 
 
+        print("////////////////////////////////////////////////")
+        print("----- Waiting for user to say \"hey darwin\" -----")
 
-        print("please say \"hey darwin\"")
         list_of_words = ["darwin","darling","darlin", "godwin", "dad win"]
         word_finder.check_words(list_of_words)
+
         rand_text = random.randint(0, 4)
         if (rand_text == 0):
             text_to_speak = "Hello, how can I help you today?"
@@ -82,10 +87,8 @@ if __name__ == '__main__' :
             text_to_speak += "How may I help you today?"
 
 
-        text_to_speech_publisher.publish_text(text_to_speak, wait = False)  
+        text_to_speech_publisher.publish_text(text_to_speak)
 
-
-
-        
         command_handler.command_handler()
+        print("\n")
         

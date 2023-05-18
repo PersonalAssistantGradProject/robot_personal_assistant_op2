@@ -58,6 +58,7 @@ def check_words(list_of_words):
         
 
         if transcript is not None:
+            print("User said:",transcript)
             #print("transcript =",transcript)
             #print("past_transcript =",past_transcript)
             #print("past_past_transcript =",past_past_transcript)
@@ -78,6 +79,7 @@ def check_words(list_of_words):
                     return word, pain_type_found
             past_past_transcript = past_transcript
             past_transcript = transcript
+            transcript = None
 
         if bad_posture_time is not None:
 

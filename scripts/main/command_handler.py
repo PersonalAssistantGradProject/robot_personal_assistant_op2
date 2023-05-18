@@ -55,28 +55,28 @@ def handle_joke():
     joke_number = random.randint(0, 6)
 
     if (joke_number == 0):
-        joke =  "How do you open a banana? With a mon-key. hahahaha."
+        joke = "How do you open a banana? With a mon-key. Hahahaha."
 
     elif (joke_number == 1):
-        joke =  "What do you call a bee that can't make up its mind? A Maybe. hahahaha."
+        joke = "What do you call a bee that can't make up its mind? A Maybe. Hahahaha."
     
     elif (joke_number == 2):
-        joke =  "Why did the bicycle fall over? Because it was two tired! hahahaha."
+        joke = "Why did the bicycle fall over? Because it was two tired. Hahahaha."
     
     elif (joke_number == 3):
-        joke =  "Why did the computer get cold? Because it left its Windows open! hahahaha."
+        joke = "Why did the computer get cold? Because it left its Windows open. Hahahaha."
 
     elif (joke_number == 4):
-        joke =  "Knock knock. Who's there? Olive. Olive who? Olive YOU!"
+        joke = "Knock knock. Who's there? Olive. Olive who? Olive YOU!"
 
     elif (joke_number == 5):
-        joke =  "Patient said: Doctor, I have a pain in my eye whenever I drink tea. " \
-                "Doctor replied: Take the spoon out of the mug before you drink. hahahaha."
+        joke = ("Patient said: Doctor, I have a pain in my eye whenever I drink tea. "
+                "Doctor replied: Take the spoon out of the mug before you drink. Hahahaha.")
         
     elif (joke_number == 6):
-        joke =  "The professor looked at the students and told them that you are the lamps of the future. " \
-                "The student looked at his colleague who found him in the seventh sleep, and the student" \
-                "said: Professor, the lamp next to me has burned out.hahahaha"
+        joke = ("The professor looked at the students and told them that you are the lamps of the future. "
+                "The student looked at his colleague who found him in the seventh sleep, and the student "
+                "said: Professor, the lamp next to me has burned out. Hahahaha.")
     
     # send the joke to the robot to say it
     text_to_speech_publisher.publish_text(joke)
@@ -94,21 +94,22 @@ def handle_record_note(found_word):
 
 def handle_introduce(found_word):
     if (found_word == "what can you do"):
-        text_to_speak = "I am a personal assistant designed to accompany you while you work or study at your desk. \
-                        I offer a wide range of services, including web searching, voice note taking, and playback, as well \
-                        as time and date information. If you are experiencing any discomfort or pain in your back, shoulders, \
-                        arms, legs, or neck, I can provide you with medical advice. Additionally, I can provide you with \
-                        summaries of various topics from Wikipedia, tell you a joke if you need a mood boost, and provide \
-                        you with current weather information."
-        text_to_speech_publisher.publish_text(text_to_speak)
+        text_to_speak = ("I am a personal assistant designed to accompany you while you work or study at your desk. "
+                         "I offer a wide range of services, including web searching, voice note taking, and playback, as well "
+                         "as time and date information. If you are experiencing any discomfort or pain in your back, shoulders, "
+                         "arms, legs, or neck, I can provide you with medical advice. Additionally, I can provide you with "
+                         "summaries of various topics from Wikipedia, tell you a joke if you need a mood boost, and provide "
+                         "you with current weather information.")
+        
     else:
-        text_to_speak = "Hello, my name is Darwin OP2, but you can call me Darwin. I am a fully autonomous humanoid robot \
-                        designed to be your personal assistant while you work or study at your desk. I provide a wide range \
-                        of services such as web searching, voice note taking, and playback, as well as time and date information. \
-                        In case you experience discomfort or pain in your back, shoulders, arms, legs, or neck, \
-                        I can offer you medical advice. Moreover, I can provide you with summaries of various topics from Wikipedia, \
-                        crack a joke to cheer you up, and keep you updated on the current weather."
-        text_to_speech_publisher.publish_text(text_to_speak)
+        text_to_speak = ("Hello, my name is Darwin OP2, but you can call me Darwin. I am a fully autonomous humanoid robot, "
+                         "designed to be your personal assistant while you work or study at your desk. I provide a wide range "
+                         "of services such as web searching, voice note taking, and playback, as well as time and date information. "
+                         "In case you experience discomfort or pain in your back, shoulders, arms, legs, or neck, "
+                         "I can offer you medical advice. Moreover, I can provide you with summaries of various topics from Wikipedia, "
+                         "crack a joke to cheer you up, and keep you updated on the current weather.")
+        
+    text_to_speech_publisher.publish_text(text_to_speak)
     return
 
 
@@ -158,7 +159,7 @@ def handle_time_date(found_word):
         elif (month == "12"):
             month = "December"
 
-        text_to_speak = now.strftime("today's date is %d " + month + " %Y.")
+        text_to_speak = now.strftime("Today's date is %d " + month + " %Y.")
     text_to_speech_publisher.publish_text(text_to_speak)
     return
 
@@ -177,11 +178,11 @@ def command_handler():
                     + ["what can you do", "who are you", "introduce"]
                     
 
-    
+    print("\n----- Waiting for user to give command -----")
     found_word, pain_type = word_finder.check_words(list_of_words)
-
-    print("found_word =", found_word)
-    print ("pain_type =", pain_type)
+    print("command found:", found_word)
+    print ("pain type (if any):", pain_type)
+    print("")
 
 
 
