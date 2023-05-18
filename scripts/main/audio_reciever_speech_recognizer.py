@@ -48,9 +48,6 @@ OVERLAP_SECONDS = 0.5  # Duration of overlap between consecutive audio segments
 while not rospy.is_shutdown():
 
     
-    print("waiting to start audio_reciever_speech_recognizer.py")
-
-
     start = None
     def callback(data):
         global start 
@@ -90,6 +87,7 @@ while not rospy.is_shutdown():
         while not rospy.is_shutdown():
             
             if (finished is not None):
+                audio_socket.close()
                 break
                 
             # Receive audio data from the client
@@ -132,4 +130,4 @@ while not rospy.is_shutdown():
 
     # Close the existing socket
     audio_socket.close()
-    print("finished audio_reciever_speech_recognizer.py")
+

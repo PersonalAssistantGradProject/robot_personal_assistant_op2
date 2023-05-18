@@ -36,14 +36,17 @@ if __name__ == '__main__' :
 
     # initalize ROS node 'input_handler'
     rospy.init_node('input_handler', anonymous=True)
-
-    # check for authentic users
-    #face_recognizer.security_check()
+    bypass = True
+    if (not bypass):
+        # check for authentic users
+        face_recognizer.security_check()
+    else:
+        time.sleep(3)
+        action_sender.publish_action(100)
     
-    time.sleep(2)
-    #action_sender.publish_action(100)
     
-
+    
+    
     while True:
 
 

@@ -15,7 +15,7 @@ audio = pyaudio.PyAudio()
 
 
 # get the IP address of the receiving PC
-HOST = "192.168.1.20" # change to the IP address of the receiving PC
+HOST = "127.0.0.1" # change to the IP address of the receiving PC
 PORT = 5000
 
 

@@ -11,7 +11,6 @@ import text_to_speech_publisher # text_to_speech_publisher.py
 import time
 
 def handle_wikipedia():
-    time.sleep(1)
 
     HOST = ''  # Listen on all available interfaces
     PORT = 5000  # Use a free port number
@@ -22,15 +21,14 @@ def handle_wikipedia():
 
     threshold = 6000
     count = -50
-    note_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    
 
-    note_socket.bind((HOST, PORT))
     
     text_to_speak = "Tell me the specific topic that you would like me to address?!"
     text_to_speech_publisher.publish_text(text_to_speak,wait =False)
 
     time.sleep(3)
+    note_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    note_socket.bind((HOST, PORT))
     note_socket.listen()
     print(f"Listening for audio data on {HOST}:{PORT}...")
     conn, addr = note_socket.accept()

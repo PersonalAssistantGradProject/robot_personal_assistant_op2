@@ -39,13 +39,9 @@ def record():
     RATE = 44100
     CHUNK = 1024
     data_buffer = b''
-
     threshold = 6000
     count = -50
-    note_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    
 
-    note_socket.bind((HOST, PORT))
     
 
 
@@ -55,6 +51,8 @@ def record():
 
 
     time.sleep(2.85)
+    note_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    note_socket.bind((HOST, PORT))
     note_socket.listen()
     print(f"Listening for audio data on {HOST}:{PORT}...")
     conn, addr = note_socket.accept()

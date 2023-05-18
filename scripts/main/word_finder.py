@@ -18,7 +18,6 @@ def check_words(list_of_words):
     global start_publisher
     global finished_publisher
     start_publisher.publish("start")
-    rospy.loginfo("start")
     # subscribe to the rostopic
 
     rate = rospy.Rate(1)# 1Hz
@@ -76,7 +75,6 @@ def check_words(list_of_words):
                                 return word, pain_type_found
                             
                     finished_publisher.publish("finished")
-                    rospy.loginfo("finished")
                     return word, pain_type_found
             past_past_transcript = past_transcript
             past_transcript = transcript

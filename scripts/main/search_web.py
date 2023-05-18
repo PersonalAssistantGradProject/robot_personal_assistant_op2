@@ -12,7 +12,6 @@ import text_to_speech_publisher # text_to_speech_publisher.py
 
 
 def handle_search():
-    time.sleep(1)
 
 
     HOST = ''  # Listen on all available interfaces
@@ -24,8 +23,7 @@ def handle_search():
 
     threshold = 6000
     count = -50 
-    note_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    note_socket.bind((HOST, PORT))
+    
 
     text_to_speak = "What would you like me to search for?"
     text_to_speech_publisher.publish_text(text_to_speak, wait = False)
@@ -36,6 +34,8 @@ def handle_search():
     
 
     time.sleep(1)
+    note_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    note_socket.bind((HOST, PORT))
     note_socket.listen()
     print(f"Listening for audio data on {HOST}:{PORT}...")
     conn, addr = note_socket.accept()
