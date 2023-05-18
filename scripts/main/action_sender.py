@@ -18,7 +18,7 @@ def init():
 def publish_action(action):
     global action_publisher
     rate = rospy.Rate(10)
-    print("Robot perfromed page num:", action)
+    print("- Robot perfromed page num:", action)
     action_publisher.publish(action)
     rate.sleep()
     return

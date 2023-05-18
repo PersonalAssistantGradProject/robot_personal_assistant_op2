@@ -35,7 +35,7 @@ def publish_text(text_to_speak,wait = True):
 
     # Publish the audio data
     text_publisher.publish(audio_data)
-    print("Robot said:", text_to_speak)
+    print("- Robot said:", text_to_speak)
     # Remove the temporary audio file
     os.remove(temp_file_path)
 

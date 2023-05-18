@@ -180,8 +180,9 @@ def command_handler():
 
     print("\n----- Waiting for user to give command -----")
     found_word, pain_type = word_finder.check_words(list_of_words)
-    print("command found:", found_word)
-    print ("pain type (if any):", pain_type)
+    print("\ncommand found:", found_word)
+    if (pain_type != ""):
+        print ("pain type:", pain_type)
     print("")
 
 

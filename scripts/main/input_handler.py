@@ -38,7 +38,7 @@ if __name__ == '__main__' :
     # initalize ROS node 'input_handler'
     rospy.init_node('input_handler', anonymous=True)
 
-
+    os.system('clear')
     bypass = True
     if (not bypass):
         # check for authentic users
@@ -49,7 +49,7 @@ if __name__ == '__main__' :
     
     
     
-    os.system('clear')
+    
     while True:
 
 

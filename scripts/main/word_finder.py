@@ -58,7 +58,7 @@ def check_words(list_of_words):
         
 
         if transcript is not None:
-            print("User said:",transcript)
+            print("- User said:",transcript)
             #print("transcript =",transcript)
             #print("past_transcript =",past_transcript)
             #print("past_past_transcript =",past_past_transcript)
@@ -68,7 +68,6 @@ def check_words(list_of_words):
             for word in list_of_words:
                 if word in transcript_lower:
                     if (word == "pain" or word == "hurt"):
-                        print("user has pain, checking for pain type.")
                         for pain_type in pain_types:
                             if pain_type in transcript_lower + past_transcript.lower() + past_past_transcript.lower():
                                 pain_type_found = pain_type
