@@ -59,9 +59,6 @@ def check_words(list_of_words):
 
         if transcript is not None:
             print("- User said:",transcript)
-            #print("transcript =",transcript)
-            #print("past_transcript =",past_transcript)
-            #print("past_past_transcript =",past_past_transcript)
 
             transcript_lower = transcript.lower()
             # then when you recieve a message, go and check if it has one of the words list
@@ -83,7 +80,6 @@ def check_words(list_of_words):
         if bad_posture_time is not None:
 
             if (bad_posture_time > 10):
-                    print("count =",count)
                     if (count == 0):
 
                         rand_text = random.randint(0, 2)
