@@ -34,12 +34,13 @@ if __name__ == '__main__' :
     action_sender.init()
     record_note.init()
     word_finder.init()
+    face_recognizer.init()
 
     # initalize ROS node 'input_handler'
     rospy.init_node('input_handler', anonymous=True)
 
     os.system('clear')
-    bypass = True
+    bypass = False
     if (not bypass):
         # check for authentic users
         face_recognizer.security_check()

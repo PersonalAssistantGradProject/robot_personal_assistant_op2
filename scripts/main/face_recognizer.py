@@ -24,6 +24,7 @@ each input face.
 import face_recognition
 import cv2
 import rospy
+import time
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
 import os
@@ -41,7 +42,7 @@ import action_sender
 #
 # It is worth noting that the face images used can be changed if needed.
 #
-def load_faces():
+def init():
 
     omar_image_path = os.path.expanduser("~/op2_tmp/omar.jpg") # path to Omar face image, change if needed.
     omar_image = face_recognition.load_image_file(omar_image_path) 
@@ -50,7 +51,12 @@ def load_faces():
     ahmad_image_path = os.path.expanduser("~/op2_tmp/ahmad.jpg") # path to Ahmad face image, change if needed.
     ahmad_image = face_recognition.load_image_file(ahmad_image_path) 
 
-    return omar_image, mohammad_image, ahmad_image
+    global omar_face_encoding
+    global mohammad_face_encoding
+    global ahmad_face_encoding
+    omar_face_encoding = face_recognition.face_encodings(omar_image)[0]
+    mohammad_face_encoding = face_recognition.face_encodings(mohammad_image)[0]
+    ahmad_face_encoding = face_recognition.face_encodings(ahmad_image)[0]
 
 
 
@@ -74,9 +80,12 @@ def load_faces():
 # until one of the authorized users is successfully recognized.
 #
 
-def recongize_faces(omar_image, mohammad_image, ahmad_image):
+def recongize_faces():
 
-    print("started facial recognition!")
+    global omar_face_encoding
+    global mohammad_face_encoding
+    global ahmad_face_encoding
+    
 
     # CvBridge to convert the recieved image into suitable format
     bridge = CvBridge()
@@ -99,7 +108,7 @@ def recongize_faces(omar_image, mohammad_image, ahmad_image):
 
         if last_image is not None:
 
-             
+            
             # save the image to the path 'op2_tmp/unknown.jpg'
             cv2.imwrite(unknown_image_path, last_image)
 
@@ -110,12 +119,8 @@ def recongize_faces(omar_image, mohammad_image, ahmad_image):
             # Since there could be more than one face in each image, it returns a list of encodings.
             # But since I know each image only has one face, I only care about the first encoding in each image, so I grab index 0.
             try:
-                omar_face_encoding = face_recognition.face_encodings(omar_image)[0]
-                mohammad_face_encoding = face_recognition.face_encodings(mohammad_image)[0]
-                ahmad_face_encoding = face_recognition.face_encodings(ahmad_image)[0]
                 unknown_face_encoding = face_recognition.face_encodings(unknown_image)
             except IndexError:
-                print("I wasn't able to locate any faces in the camera feed.")
                 return [False, False, False]
 
             known_faces = [
@@ -128,6 +133,8 @@ def recongize_faces(omar_image, mohammad_image, ahmad_image):
                 # results is an array of True/False telling if the unknown face matched anyone in the known_faces array
                 face_results = face_recognition.compare_faces(known_faces, face, tolerance=0.4)
                 auth_results = [x or y for x, y in zip(auth_results, face_results)]
+            
+            
             return auth_results
             
         rate.sleep()
@@ -136,8 +143,7 @@ def recongize_faces(omar_image, mohammad_image, ahmad_image):
 
 def security_check():
 
-    omar_image,mohammad_image,ahmad_image = load_faces()
-    print("faces have been loaded!")
+    print("----- Started authentication step using face recognition -----")
     text_num = random.randint(0, 1)
     if (text_num == 0):
         welcome_message = "Hello"
@@ -147,7 +153,7 @@ def security_check():
     
     number_of_auth_users = 0
     while True:
-        auth_results = recongize_faces(omar_image, mohammad_image, ahmad_image)
+        auth_results = recongize_faces()
 
         if (auth_results[0]):
             welcome_message+= " Omar"
@@ -175,4 +181,6 @@ def security_check():
             action_sender.publish_action(100)
             text_to_speech_publisher.publish_text(welcome_message, wait = False)
             return
+        else:
+            print("- No authentic users found!")
     
