@@ -23,11 +23,7 @@ import word_finder # word_finder.py
 import action_sender # action_sender.py
 import record_note # record_note.py
 
-
-
-if __name__ == '__main__' :
-
-    
+def initialize_system():
 
     # initalize for various functions
     text_to_speech_publisher.init()
@@ -38,8 +34,18 @@ if __name__ == '__main__' :
 
     # initalize ROS node 'input_handler'
     rospy.init_node('input_handler', anonymous=True)
-
     os.system('clear')
+
+
+if __name__ == '__main__' :
+
+    
+
+    # initalize the system
+    initialize_system()
+
+    
+
     bypass = False
     if (not bypass):
         # check for authentic users

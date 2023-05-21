@@ -50,11 +50,8 @@ def record():
     note_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     note_socket.bind((HOST, PORT))
     note_socket.listen()
-    #print(f"Listening for audio data on {HOST}:{PORT}...")
     conn, addr = note_socket.accept()
-    #print(f"Connected by {addr}")
 
-    print("\nStarted recording user's audio")
     while True:
         data = conn.recv(CHUNK)
         if not data:
@@ -65,9 +62,9 @@ def record():
 
         sample = audioop.tomono(data, 2, 1, 0)  # convert stereo to mono
         energy = audioop.rms(sample, 2)  # calculate RMS energy
-        #rms = np.sqrt(np.mean(np.square(np.frombuffer(data, dtype=np.int16))))
-        #threshold = max(threshold * DECAY_RATE, 6 * rms)
+  
         print(f"Energy: {energy}", end="\r")
+
         if energy < threshold:
             count +=1
         elif(count > 0):
@@ -75,8 +72,6 @@ def record():
 
         if (count > 250):
             break
-
-    print("Finished recording user's audio\n")
 
     text_num = random.randint(0, 2)
     if (text_num == 0):
@@ -132,9 +127,7 @@ def playback():
 
     list_of_words = ["one","1","two","2","three","3","four","4","five","5","six","6","seven","7","eight","8","nine","9"]
     list_of_words = list_of_words[:2 * record_count]
-    print("\nWaiting for user to say one of those:",list_of_words)
     found_word, pain_type = word_finder.check_words(list_of_words)
-    print(f"recording to playback: {found_word}\n")
     
     if (found_word == "one" or found_word == "1"):
         record_num = 1

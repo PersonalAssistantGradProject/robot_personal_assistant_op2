@@ -8,6 +8,7 @@ import os
 import speech_recognition as sr
 import wolframalpha
 import time
+import sys
 import text_to_speech_publisher # text_to_speech_publisher.py
 
 
@@ -33,13 +34,11 @@ def handle_search():
     
     
 
-    time.sleep(1)
+    time.sleep(1.5)
     note_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     note_socket.bind((HOST, PORT))
     note_socket.listen()
-    print(f"Listening for audio data on {HOST}:{PORT}...")
     conn, addr = note_socket.accept()
-    print(f"Connected by {addr}")
     while True:
         data = conn.recv(CHUNK)
         if not data:
@@ -50,16 +49,15 @@ def handle_search():
 
         sample = audioop.tomono(data, 2, 1, 0)  # convert stereo to mono
         energy = audioop.rms(sample, 2)  # calculate RMS energy
-        #rms = np.sqrt(np.mean(np.square(np.frombuffer(data, dtype=np.int16))))
-        #threshold = max(threshold * DECAY_RATE, 6 * rms)
-        
+
+        print(f"Energy: {energy}", end="\r")
+
         if energy < threshold:
             count +=1
         elif(count > 0):
             count -=10
 
         if (count > 250):
-            print("user has been quite for a while . exiting")
             break
 
     text_num = random.randint(0, 2)
@@ -91,10 +89,13 @@ def handle_search():
 
     # Transcribe the audio using Google's Speech Recognition API
     try:
+        sys.stdout = open(os.devnull, 'w')
         question = r.recognize_google(audio)
+        sys.stdout = sys.__stdout__
     except:
         question = ""
-    print("question = ", question)
+        sys.stdout = sys.__stdout__
+    print(f"\nquestion = {question}\n")
 
     # App id obtained by the above steps
     app_id = "7KHGE6-RTHTWQXY7G"
@@ -118,7 +119,6 @@ def handle_search():
             answer = "My apologies, but I was unable to find an answer to your question."
         elif (text_num == 1):
             answer = "Unfortunately, I was unable to locate an answer to your question."
-    print("answer = ", answer)
     text_to_speech_publisher.publish_text(answer)
 
 

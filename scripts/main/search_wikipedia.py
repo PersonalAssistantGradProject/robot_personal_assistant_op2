@@ -9,6 +9,8 @@ import speech_recognition as sr
 import wikipedia
 import text_to_speech_publisher # text_to_speech_publisher.py
 import time
+import sys
+
 
 def handle_wikipedia():
 
@@ -30,11 +32,8 @@ def handle_wikipedia():
     note_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     note_socket.bind((HOST, PORT))
     note_socket.listen()
-    print(f"Listening for audio data on {HOST}:{PORT}...")
     conn, addr = note_socket.accept()
-    print(f"Connected by {addr}")
     #time.sleep(1)
-    print("started recording")
     while True:
         data = conn.recv(CHUNK)
         if not data:
@@ -45,17 +44,15 @@ def handle_wikipedia():
 
         sample = audioop.tomono(data, 2, 1, 0)  # convert stereo to mono
         energy = audioop.rms(sample, 2)  # calculate RMS energy
-        #print(energy)
-        #rms = np.sqrt(np.mean(np.square(np.frombuffer(data, dtype=np.int16))))
-        #threshold = max(threshold * DECAY_RATE, 6 * rms)
-        
+
+        print(f"Energy: {energy}", end="\r")
+    
         if energy < threshold:
             count +=1
         elif(count > 0):
             count -=10
 
         if (count > 250):
-            print("user has been quite for a while . exiting")
             break
 
     text_num = random.randint(0, 2)
@@ -90,11 +87,14 @@ def handle_wikipedia():
     # Transcribe the audio using Google's Speech Recognition API
     
     try:
+        sys.stdout = open(os.devnull, 'w')
         topic = r.recognize_google(audio)
+        sys.stdout = sys.__stdout__
     except:
         topic = ""
+        sys.stdout = sys.__stdout__
     
-    print("topic = ", topic)
+    print(f"\ntopic = {topic}\n")
     answer = "Here's a summery about the topic you provided: "
 
     try:
