@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<launch>
+
+
+    <node pkg="robot_personal_assistant_op2" type="functions_of_robot.sh" name="functions_of_robot" output="screen"/>
+
+
+</launch>
