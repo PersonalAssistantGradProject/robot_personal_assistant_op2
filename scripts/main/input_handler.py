@@ -46,7 +46,7 @@ if __name__ == '__main__' :
 
     
 
-    bypass = False
+    bypass = True
     if (not bypass):
         # check for authentic users
         face_recognizer.security_check()
@@ -64,7 +64,7 @@ if __name__ == '__main__' :
         print("////////////////////////////////////////////////")
         print("----- Waiting for user to say \"hey darwin\" -----")
 
-        list_of_words = ["darwin","darling","darlin", "godwin", "dad win"]
+        list_of_words = ["darwin", "darling", "darlin", "godwin", "dad win", "daddy", "edwin", "bedouin","dad when"]
         word_finder.check_words(list_of_words)
 
         rand_text = random.randint(0, 4)
