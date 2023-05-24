@@ -17,7 +17,7 @@
 
     <node pkg="timed_roslaunch" type="timed_roslaunch.sh"
     args="25 robot_personal_assistant_op2 functions_of_robot.launch"
-    name="timed_roslaunch_audio_sender" output="screen" />
+    name="functions_of_robot" output="screen" />
 
     
 
