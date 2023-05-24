@@ -27,50 +27,50 @@ import word_finder # word_finder.py
 def print_state(state):
 
     if(state == 0):
-        print("State 0: no pain")
+        print("- State 0: no pain")
     elif(state == 1):
-        print("State 1: neck pain + bad posture")
+        print("- State 1: neck pain + bad posture")
     elif(state == 2):
-        print("State 2: neck pain")
+        print("- State 2: neck pain")
     elif(state == 3):
-        print("State 3: back pain + bad posture")
+        print("- State 3: back pain + bad posture")
     elif(state == 4):
-        print("State 4: back pain")
+        print("- State 4: back pain")
     elif(state == 5):
-        print("State 5: leg pain")
+        print("- State 5: leg pain")
     elif(state == 6):
-        print("State 6: arm pain")
+        print("- State 6: arm pain")
     else:
-        print("State 7: shoulder pain")
+        print("- State 7: shoulder pain")
 
 
 # Function to print action number and name (used for testing)
 def print_action(action):
 
     if(action == 0):
-        print("Action 0 performed: neck_1")
+        print("- Action 0 performed: neck_1")
     elif(action == 1):
-        print("Action 1 performed: neck_2")
+        print("- Action 1 performed: neck_2")
     elif(action == 2):
-        print("Action 2 performed: arm_1")
+        print("- Action 2 performed: arm_1")
     elif(action == 3):
-        print("Action 3 performed: back_1")
+        print("- Action 3 performed: back_1")
     elif(action == 4):
-        print("Action 4 performed: leg_1")
+        print("- Action 4 performed: leg_1")
     elif(action == 5):
-        print("Action 5 performed: back_2")
+        print("- Action 5 performed: back_2")
     elif(action == 6):
-        print("Action 6 performed: arm_2")
+        print("- Action 6 performed: arm_2")
     elif(action == 7):
-        print("Action 7 performed: walk")
+        print("- Action 7 performed: walk")
     elif(action == 8):
-        print("Action 8 performed: extend knee")
+        print("- Action 8 performed: extend knee")
     elif(action == 9):
-        print("Action 9 performed: extend palm")
+        print("- Action 9 performed: extend palm")
     elif(action == 10):
-        print("Action 10 performed: side bending")
+        print("- Action 10 performed: side bending")
     else:
-        print("Action 11: see a doctor")
+        print("- Action 11: see a doctor")
 
 
 # action 101 = 14s
@@ -87,7 +87,7 @@ def perform_action(action):
         thinking = "hmmmmmmmmmmmmmmmmmmmmmmmm."
     elif(text_num == 1):
         thinking = "Hmmmmmm. Let me think."
-    text_to_speech_publisher.publish_text(thinking, wait = False)
+    text_to_speech_publisher.publish_text(thinking)
     if (action == 0):
         
         # say this
@@ -211,8 +211,8 @@ def perform_action(action):
             advice = "Maybe walking around for a few minutes could help reduce your discomfort. Would you like to try it?"
         elif(text_num == 2):
             advice ="How about taking a short walk? It may help ease your pain."
-       
         text_to_speech_publisher.publish_text(advice)
+        time.sleep(3)
 
 
     elif (action == 8):
@@ -226,6 +226,7 @@ def perform_action(action):
             advice = "Please make sure that your knee is well extended. It should have an angle a little wider than ninty degrees."
        
         text_to_speech_publisher.publish_text(advice)
+        time.sleep(3)
 
 
     elif (action == 9):
@@ -239,6 +240,7 @@ def perform_action(action):
             advice = "Using your other arm. Extend your arm downwards for a few seconds. This could reduce your pain."
         
         text_to_speech_publisher.publish_text(advice)
+        time.sleep(3)
 
 
     elif (action == 10):
@@ -252,6 +254,7 @@ def perform_action(action):
             advice = "Try to side bend your head to the left and right. Do it 3 times for each side."
         
         text_to_speech_publisher.publish_text(advice)
+        time.sleep(3)
 
 
     elif (action == 11):
@@ -281,10 +284,6 @@ def process_state(state):
     q_table_path = os.path.join(package_path, 'scripts/main/q_learning/q_table.npy')
     q_table = np.load(q_table_path)
 
-    # print updated Q-table
-    np.set_printoptions(precision=3)
-    print("\n\n----- Finalized Q-table -----\n")
-    print(q_table)
     #state = random.randint(1,7)
     bad_posture_time = None
     

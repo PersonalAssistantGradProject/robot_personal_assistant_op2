@@ -101,8 +101,8 @@ def handle_introduce(found_word):
                      "If you are experiencing any discomfort or pain in your back, shoulders, arms, legs, or neck, I can provide you with medical advice.",
                      "Additionally, I can provide you with summaries of various topics from Wikipedia, tell you a joke if you need a mood boost, and provide you with current weather information."]
         
-        for text_to_speak in paragraph:
-            text_to_speech_publisher.publish_text(text_to_speak, wait = False)
+        for sentence in paragraph:
+            text_to_speech_publisher.publish_text(sentence, wait = False)
         time.sleep(40)
         
     else:
@@ -111,9 +111,9 @@ def handle_introduce(found_word):
                      "I also keep track of your posture to ensure your comfort, and will alert you when it needs adjustment.",
                      "If you experience discomfort or pain in your back, shoulders, arms, legs, or neck, I can offer you medical advice.",
                      "Additionally, I can provide Wikipedia summaries, tell jokes, and keep you updated on the weather."]
-        for text_to_speak in paragraph:
-            text_to_speech_publisher.publish_text(text_to_speak, wait = False)
-        time.sleep(30)
+        for sentence in paragraph:
+            text_to_speech_publisher.publish_text(sentence, wait = False)
+        time.sleep(31)
     
     return
 

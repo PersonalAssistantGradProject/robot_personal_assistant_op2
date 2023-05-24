@@ -58,7 +58,7 @@ def check_words(list_of_words):
         bad_posture_time = None
         count = 10
         start_time = time.time()
-        timeout = 20  # 30 seconds    
+        timeout = 30 # 30 seconds    
 
         while not rospy.is_shutdown():
 
@@ -73,6 +73,7 @@ def check_words(list_of_words):
                     if word in transcript_lower:
                         finished_publisher.publish("finished")
                         return word, pain_type_found
+                transcript = None
             
             if bad_posture_time is not None:
 
@@ -110,7 +111,7 @@ def check_words(list_of_words):
                     "shoulder",
                     "head"]
         start_time = time.time()
-        timeout = 10  # 15 seconds             
+        timeout = 15  # 15 seconds             
         
         while not rospy.is_shutdown():
             if transcript is not None:
@@ -152,3 +153,4 @@ def check_words(list_of_words):
                     if word in transcript_lower:
                         finished_publisher.publish("finished")
                         return word, pain_type_found
+                transcript = None
