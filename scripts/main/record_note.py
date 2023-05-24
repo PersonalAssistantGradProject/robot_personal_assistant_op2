@@ -11,6 +11,8 @@ from std_msgs.msg import String
 import text_to_speech_publisher # text_to_speech_publisher.py
 import word_finder # word_finder.py
 import random
+import noisereduce as nr
+import soundfile as sf
 
 
 
@@ -92,8 +94,8 @@ def record():
  
     global record_count
     record_count +=1
-    filename = os.path.expanduser(f"~/op2_tmp/recordings/recording{record_count}.mp3")
-    audio_segment.export(filename, format="mp3")
+    filename = os.path.expanduser(f"~/op2_tmp/recordings/recording{record_count}.wav")
+    audio_segment.export(filename, format="wav")
     return
  
     
@@ -149,7 +151,7 @@ def playback():
         record_num = 9
     
 
-    filename = os.path.expanduser(f"~/op2_tmp/recordings/recording{record_num}.mp3")
+    
     text_num = random.randint(0, 2)
     if(text_num == 0):
         text_to_speak = f"Playing recording {record_num} as requested."
@@ -161,6 +163,12 @@ def playback():
 
     global audio_publisher
     rate = rospy.Rate(10)
+
+    filename = os.path.expanduser(f"~/op2_tmp/recordings/recording{record_num}.wav")
+    audio_data, sample_rate = sf.read(filename)
+    reduced_noise = nr.reduce_noise(y=audio_data, sr=sample_rate)
+    filename = os.path.expanduser(f"~/op2_tmp/recordings/recording{record_num}_clean.wav")
+    sf.write(filename, reduced_noise, sample_rate)
     with open(filename, 'rb') as f:
         audio_data = f.read()
 
