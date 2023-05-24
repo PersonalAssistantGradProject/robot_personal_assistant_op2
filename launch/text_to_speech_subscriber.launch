@@ -2,7 +2,7 @@
 <launch>
 
 
-    <node pkg="robot_personal_assistant_op2" type="text_to_speech_subscriber.py" name="text_to_speech_subscriber" output="screen"/>
+    <node pkg="robot_personal_assistant_op2" type="text_to_speech_subscriber.py" name="text_to_speech_subscriber" output="screen" executable="python3.9"/>
 
 
 </launch>
