@@ -132,8 +132,11 @@ if __name__ == "__main__":
             #    cv2.putText(last_image, str(int(offset)) + ' Not Aligned', (w - 150, 30), font, 0.9, red, 2)
 
             # Calculate angles.
-            neck_inclination = findAngle(l_shldr_x, l_shldr_y, l_ear_x, l_ear_y)
-            torso_inclination = findAngle(l_hip_x, l_hip_y, l_shldr_x, l_shldr_y)
+            try:
+                neck_inclination = findAngle(l_shldr_x, l_shldr_y, l_ear_x, l_ear_y)
+                torso_inclination = findAngle(l_hip_x, l_hip_y, l_shldr_x, l_shldr_y)
+            except:
+                pass
 
             # Draw landmarks.
             cv2.circle(last_image, (l_shldr_x, l_shldr_y), 7, yellow, -1)

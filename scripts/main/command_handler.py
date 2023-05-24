@@ -2,7 +2,8 @@
 
 
 # imported libraries           
-import random                                    
+import random
+import time                     
 from datetime import datetime
 import pain_handler # pain_handler.py
 import word_finder # word_finder.py
@@ -176,61 +177,55 @@ def command_handler():
                     + ["wikipedia"] \
                     + ["search", "google"] \
                     + ["what can you do", "who are you", "introduce"]
-                    
 
-    print("\n----- Waiting for user to give command -----")
-    found_word, pain_type = word_finder.check_words(list_of_words)
-    print("\ncommand found:", found_word)
-    if (pain_type != ""):
-        print ("pain type:", pain_type)
-    print("")
-
-
-
-    # handle pain
-    if (found_word == "pain" or found_word == "hurt" or found_word == "backache" or found_word == "headache"):
-        if (found_word == "backache"):
-            pain_type = found_word
-        elif (found_word == "headache"):
-            pain_type = found_word
-        handle_pain(pain_type)
-        return
+    
+    while True:
+        print("\n----- Waiting for user to give command -----")
+        found_word, pain_type = word_finder.check_words(list_of_words)
+        print("\ncommand found:", found_word)
+        if (pain_type != ""):
+            print ("pain type:", pain_type)
+        print("")
 
 
-    # handle joke
-    elif (found_word == "joke" or found_word == "funny"):
-        handle_joke()
-        return
+
+        # handle pain
+        if (found_word == "pain" or found_word == "hurt" or found_word == "backache" or found_word == "headache"):
+            if (found_word == "backache"):
+                pain_type = found_word
+            elif (found_word == "headache"):
+                pain_type = found_word
+            handle_pain(pain_type)
+
+
+        # handle joke
+        elif (found_word == "joke" or found_word == "funny"):
+            handle_joke()
+            
+
+        # take a note/record
+        elif (found_word == "note" or found_word == "record" or found_word == "play"):
+            handle_record_note(found_word)
+
+
+        elif (found_word == "what can you do" or  found_word == "who are you" or found_word =="introduce"):
+            handle_introduce(found_word)
         
 
-    # take a note/record
-    elif (found_word == "note" or found_word == "record" or found_word == "play"):
-        handle_record_note(found_word)
-        return
+        elif (found_word == "date" or  found_word == "time"):
+            handle_time_date(found_word)
 
 
-    elif (found_word == "what can you do" or  found_word == "who are you" or found_word =="introduce"):
-        handle_introduce(found_word)
-        return
-    
+        elif (found_word == "wikipedia"):
+            search_wikipedia.handle_wikipedia()
+        
 
-    elif (found_word == "date" or  found_word == "time"):
-        handle_time_date(found_word)
-        return
+        elif (found_word == "search" or  found_word == "google"):
+            search_web.handle_search() 
 
+        elif (found_word == "command_timeout"):
+            break
 
-    elif (found_word == "wikipedia"):
-        search_wikipedia.handle_wikipedia()
-        return
-    
-
-    elif (found_word == "search" or  found_word == "google"):
-        search_web.handle_search()
-        return
-    
-
-
-
-
-    print("got stuck")
-    return
+        else:
+            print("ERROR IN COMMAND HANDLING!!!!!!!!!!!! COMMAND NOT FOUND!!!")
+        
