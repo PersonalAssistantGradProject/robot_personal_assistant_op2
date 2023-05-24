@@ -104,7 +104,8 @@ if __name__ == '__main__' :
             
             print("\n")
 
-        action_sender.publish_action(15)
+        # make darwin sit down but face you to detect your face
+        action_sender.publish_action(100)
         
 
         

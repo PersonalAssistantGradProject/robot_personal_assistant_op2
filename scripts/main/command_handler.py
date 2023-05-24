@@ -95,22 +95,26 @@ def handle_record_note(found_word):
 
 def handle_introduce(found_word):
     if (found_word == "what can you do"):
-        text_to_speak = ("I am a personal assistant designed to accompany you while you work or study at your desk. "
-                         "I offer a wide range of services, including web searching, voice note taking, and playback, as well "
-                         "as time and date information. If you are experiencing any discomfort or pain in your back, shoulders, "
-                         "arms, legs, or neck, I can provide you with medical advice. Additionally, I can provide you with "
-                         "summaries of various topics from Wikipedia, tell you a joke if you need a mood boost, and provide "
-                         "you with current weather information.")
+        paragraph = ["I am a personal assistant designed to accompany you while you work or study at your desk.",
+                     "I offer a wide range of services, including web searching, voice note taking, and playback, as well as time and date information.",
+                     "I will also keep track of your posture and make sure to alert you when you need to change it.",
+                     "If you are experiencing any discomfort or pain in your back, shoulders, arms, legs, or neck, I can provide you with medical advice.",
+                     "Additionally, I can provide you with summaries of various topics from Wikipedia, tell you a joke if you need a mood boost, and provide you with current weather information."]
+        
+        for text_to_speak in paragraph:
+            text_to_speech_publisher.publish_text(text_to_speak, wait = False)
+        time.sleep(40)
         
     else:
-        text_to_speak = ("Hello, my name is Darwin OP2, but you can call me Darwin. I am a fully autonomous humanoid robot, "
-                         "designed to be your personal assistant while you work or study at your desk. I provide a wide range "
-                         "of services such as web searching, voice note taking, and playback, as well as time and date information. "
-                         "In case you experience discomfort or pain in your back, shoulders, arms, legs, or neck, "
-                         "I can offer you medical advice. Moreover, I can provide you with summaries of various topics from Wikipedia, "
-                         "crack a joke to cheer you up, and keep you updated on the current weather.")
-        
-    text_to_speech_publisher.publish_text(text_to_speak)
+        paragraph = ["Hello, I'm Darwin, your personal assistant.",
+                     "I provide various services like web searching, voice note taking, and time/date information.",
+                     "I also keep track of your posture to ensure your comfort, and will alert you when it needs adjustment.",
+                     "If you experience discomfort or pain in your back, shoulders, arms, legs, or neck, I can offer you medical advice.",
+                     "Additionally, I can provide Wikipedia summaries, tell jokes, and keep you updated on the weather."]
+        for text_to_speak in paragraph:
+            text_to_speech_publisher.publish_text(text_to_speak, wait = False)
+        time.sleep(30)
+    
     return
 
 
