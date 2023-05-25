@@ -95,7 +95,13 @@ def record():
     global record_count
     record_count +=1
     filename = os.path.expanduser(f"~/op2_tmp/recordings/recording{record_count}.wav")
+        
     audio_segment.export(filename, format="wav")
+    filename = os.path.expanduser(f"~/op2_tmp/recordings/recording{record_count}.wav")
+    audio_data, sample_rate = sf.read(filename)
+    reduced_noise = nr.reduce_noise(y=audio_data, sr=sample_rate)
+    filename = os.path.expanduser(f"~/op2_tmp/recordings/recording{record_count}_clean.wav")
+    sf.write(filename, reduced_noise, sample_rate)
     return
  
     
@@ -164,11 +170,8 @@ def playback():
     global audio_publisher
     rate = rospy.Rate(10)
 
-    filename = os.path.expanduser(f"~/op2_tmp/recordings/recording{record_num}.wav")
-    audio_data, sample_rate = sf.read(filename)
-    reduced_noise = nr.reduce_noise(y=audio_data, sr=sample_rate)
+
     filename = os.path.expanduser(f"~/op2_tmp/recordings/recording{record_num}_clean.wav")
-    sf.write(filename, reduced_noise, sample_rate)
     with open(filename, 'rb') as f:
         audio_data = f.read()
 
