@@ -130,7 +130,7 @@ Future plans for this project incude:
 8. Overall optimization and bug-fixing.
 
 [//]: #
-   [Demo Video]: <>
+   [Demo Video]: <https://youtu.be/yJ2NVAMxFx4>
    [documentation]: <https://github.com/PersonalAssistantGradProject/robot_personal_assistant_op2/blob/main/Project%20Documentation.pdf>
    [Body Posture Detection]: <https://learnopencv.com/building-a-body-posture-analysis-system-using-mediapipe/>
    [ROS Wiki]: <https://wiki.ros.org/>
