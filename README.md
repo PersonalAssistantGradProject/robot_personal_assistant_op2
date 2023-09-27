@@ -1,5 +1,4 @@
 # Building an Interactive and Intelligent system Using Darwin OP2 Humanoid Robot
-
 ---
 # Introduction
 
