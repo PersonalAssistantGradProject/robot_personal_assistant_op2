@@ -47,15 +47,13 @@ Please feel free to contact any of the members via email.
 ##### PC Side:
 - Ubuntu 20.04 LTS (Focal Fossa)
 - ROS Noetic Ninjemys
-- Python 3.
+- Python 3.8.10
 - For python libraries, please check requirements_pc.txt
-
-
 
 ##### Darwin Side:
 - Linux Mint 17.3 "Rosa"
 - ROS Indigo Igloo
-- Python 3.X
+- Python 2.7.6
 - For python libraries, please check requirements_darwin.txt
 
 ##### Other Requirements:
