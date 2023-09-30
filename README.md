@@ -24,6 +24,7 @@ This project focused on utilizing the Darwin OP2 robot to create an immersive an
 Darwin functions as a robotic personal assistant, using the power of reinforcement learning to provide medical advice. Additionally, it possesses the capability to fetch web-based information, record and replay your voice, issue alerts when your posture is suboptimal, and provide you with the current time, date, and even a touch of humor.
 
 Check out the [Demo Video].
+
 For more information about this project, please refer to its [documentation].
 
 ---
