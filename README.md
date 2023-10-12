@@ -107,7 +107,7 @@ Do the following steps for both sides (Darwin and PC):
 
 ---
 # Other Notes
-The purpose of documenting this project is to help people who would work on the same project in the future. by documenting all of our steps, we hope to give them the information they need to continue working on this project. It is also our intent to inspire people who would work on similar projects, all of our code is open source with most parts of it being documented. We believe that going through our codes and documentations could influence those who have intersts in such projects.
+The purpose of documenting this project is to help people who would work on the same project in the future. by documenting all of our steps, we hope to give them the information they need to continue working on this project. It is also our intent to inspire people who would work on similar projects, all of our code is open source with most parts of it being documented. We believe that going through our codes and documentations could influence those who have interests in such projects.
 
 ##### Open-Source Code used in this project:
 - [Body Posture Detection]
